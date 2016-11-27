@@ -9,6 +9,7 @@ export default class Motivation extends Component {
   constructor (props) {
     super(props)
     hookConsoleLog()
+    console.log(props)
   }
 
   render () {

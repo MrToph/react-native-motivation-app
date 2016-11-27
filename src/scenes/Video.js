@@ -1,65 +1,20 @@
 import React, { Component } from 'react'
-import { View, Text, WebView } from 'react-native'
-
-const website = `
-<html>
-  <body>
-    <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
-    <div id="player"></div>
-
-    <script>
-      // 2. This code loads the IFrame Player API code asynchronously.
-      var tag = document.createElement('script');
-
-      tag.src = "https://www.youtube.com/iframe_api";
-      var firstScriptTag = document.getElementsByTagName('script')[0];
-      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-      // 3. This function creates an <iframe> (and YouTube player)
-      //    after the API code downloads.
-      var player;
-      function onYouTubeIframeAPIReady() {
-        player = new YT.Player('player', {
-          height: '360',
-          width: '640',
-          videoId: 'M7lc1UVf-VE',
-          events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
-          }
-        });
-      }
-
-      // 4. The API will call this function when the video player is ready.
-      function onPlayerReady(event) {
-        event.target.playVideo();
-      }
-
-      // 5. The API calls this function when the player's state changes.
-      //    The function indicates that when playing a video (state=1),
-      //    the player should play for six seconds and then stop.
-      var done = false;
-      function onPlayerStateChange(event) {
-        if (event.data == YT.PlayerState.PLAYING && !done) {
-          setTimeout(stopVideo, 6000);
-          done = true;
-        }
-      }
-      function stopVideo() {
-        player.stopVideo();
-      }
-    </script>
-  </body>
-</html>
-`
+import { View, Text, WebView, Button } from 'react-native'
+import AppLauncher from 'react-native-app-launcher'
 
 export default class Video extends Component {
+    constructor(props) {
+        super(props)
+    }
     render() {
+        const videoId = 'idyZRfRScbk'
+        const volume = '50'
         const source = {
             // html: website, 
-            uri: 'http://cmichel.io/test/test.html',
+            uri: `http://cmichel.io/test/api.html?nocache=${Date.now()}&videoid=${videoId}&volume=${volume}`, // may not be called index.html, bug?
             // uri: 'http://www.youtube.com/embed/hbkZrOU1Zag?autoplay=1'
         }
+        console.log(source)
         return (
             <View style={styles.container}>
                 <WebView
@@ -70,8 +25,42 @@ export default class Video extends Component {
                     allowUniversalAccessFromFileURLs
                     source={source}
                 />
+                <View style={styles.buttonContainer}>
+                    <Button
+                    style={styles.button}
+                    onPress={this.onPress}
+                    title="Start Timer"
+                    color="#841584"
+                    accessibilityLabel="Start the Alarm Manager timer which launches this app."
+                    />
+                    <Button
+                    style={styles.button}
+                    onPress={this.onPress2}
+                    title="Start Timer 6 minutes"
+                    color="#0000ff"
+                    accessibilityLabel="Start the Alarm Manager timer which launches this app."
+                    />
+                    <Button
+                    style={styles.button}
+                    onPress={this.onClear}
+                    title="Clear"
+                    color="#ff0000"
+                    />
+                </View>
             </View>
         )
+    }
+
+    onPress = () => {
+        AppLauncher.setAlarm("1", 5, false)
+    }
+
+    onPress2 = () => {
+        AppLauncher.setAlarm("2", 10, false)
+    }
+
+    onClear = () => {
+        AppLauncher.clearAlarm("1")
     }
 }
 
@@ -80,8 +69,11 @@ const styles = {
         flex: 1
     },
     webView: {
-        flex: 1,
-        alignSelf: 'stretch'
+    },
+    buttonContainer: {
+        padding: 10,
+        height: 200,
+        justifyContent: 'space-around'
     }
 }
 
