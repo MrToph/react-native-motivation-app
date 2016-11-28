@@ -8,7 +8,7 @@ export default class Video extends Component {
     }
     render() {
         const videoId = 'idyZRfRScbk'
-        const volume = '50'
+        const volume = '0'
         const source = {
             // html: website, 
             uri: `http://cmichel.io/test/api.html?nocache=${Date.now()}&videoid=${videoId}&volume=${volume}`, // may not be called index.html, bug?
@@ -52,11 +52,11 @@ export default class Video extends Component {
     }
 
     onPress = () => {
-        AppLauncher.setAlarm("1", 5, false)
+        AppLauncher.setAlarm("1", 5, true)
     }
 
     onPress2 = () => {
-        AppLauncher.setAlarm("2", 10, false)
+        AppLauncher.setAlarm("2", 10, true)
     }
 
     onClear = () => {

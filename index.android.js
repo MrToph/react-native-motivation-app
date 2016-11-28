@@ -5,11 +5,12 @@ import { Provider } from 'react-redux'
 import store from './src/store'
 import { hookConsoleLog } from 'stacklogger'
 
+hookConsoleLog()
+
 export default class Motivation extends Component {
   constructor (props) {
     super(props)
-    hookConsoleLog()
-    console.log(props)
+    console.log('index.android.js', props)
   }
 
   render () {

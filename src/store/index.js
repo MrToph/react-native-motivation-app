@@ -1,8 +1,9 @@
 import { applyMiddleware, createStore, combineReducers } from 'redux'
 import logger from 'redux-logger'
 import thunk from 'redux-thunk'
-import settingsReducer from './settings/reducer'
 import alarmReducer from './alarm/reducer'
+import navigationReducer from './navigation/reducer'
+import settingsReducer from './settings/reducer'
 import { devSettings } from '../constants'
 
 function getStateMiddleWare ({ getState }) {
@@ -20,7 +21,7 @@ if (devSettings.logRedux) {
 }
 
 const reducers = combineReducers({
-//   navigation: reducer,
+  navigation: navigationReducer,
   settings: settingsReducer,
   alarm: alarmReducer
 })
