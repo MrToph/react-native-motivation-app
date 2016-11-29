@@ -4,15 +4,17 @@ import { typography } from 'react-native-material-design-styles'
 import { textColor } from '../styling'
 
 const textStyle = [typography.paperFontBody1, {
-  color: textColor
+  color: textColor,
 }]
 
 export default class CusomText extends Component {
-  render () {
-    let style = this.props.style
+  render() {
+    const style = this.props.style
     return (
-      <Text {...this.props} style={style ? (Array.isArray(style) ? [...textStyle, ...style] : [...textStyle, style])
-                               : [...textStyle]} />
+      <Text
+        {...this.props} style={style ? (Array.isArray(style) ? [...textStyle, ...style] : [...textStyle, style])
+                               : [...textStyle]}
+      />
     )
   }
 }

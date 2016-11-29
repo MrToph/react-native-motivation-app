@@ -13,10 +13,10 @@ export default class TextInputRow extends Component {
     textAfter: PropTypes.string,
     onSubmit: PropTypes.func.isRequired,
     inputStyle: PropTypes.object,
-    inputProps: PropTypes.object  // additional props supplied to TextInput
+    inputProps: PropTypes.object,  // additional props supplied to TextInput
   }
 
-  render () {
+  render() {
     let { textBefore, textAfter, inputStyle, inputProps } = this.props
     return (
       <View style={styles.horizontalContainer}>
@@ -27,13 +27,13 @@ export default class TextInputRow extends Component {
           ref={this.onRef}
           style={[styles.text, styles.textInput, inputStyle]}
           selectTextOnFocus
-          returnKeyType='done'
+          returnKeyType="done"
           onSubmitEditing={this.onSubmitEditing}
           // placeholder='Weight'
           // maxLength={inputMaxLength}
           // defaultValue=''
           {...inputProps}
-           />
+        />
         <Text>
           {textAfter}
         </Text>
@@ -41,11 +41,11 @@ export default class TextInputRow extends Component {
     )
   }
 
-  onRef = ref => {
-    if (ref) this.setState({textInputRef: ref})
+  onRef = (ref) => {
+    if (ref) this.setState({ textInputRef: ref })
   }
 
-  onSubmitEditing = val => {
+  onSubmitEditing = (val) => {
     if (this.state.textInputRef) {
       this.state.textInputRef.blur()
     }
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     paddingRight: 16,
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    alignItems: 'center'
+    alignItems: 'center',
   },
-  textInput: {flex: 1, textAlign: 'center'}
+  textInput: { flex: 1, textAlign: 'center' },
 })
