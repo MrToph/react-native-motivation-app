@@ -1,24 +1,19 @@
 import React, { Component, PropTypes } from 'react'
 import { TouchableOpacity } from 'react-native'
-import { Button, Card, Icon } from 'react-native-elements'
+import { typography } from 'react-native-material-design-styles'
 import { Text } from '../components'
 import { primaryColor } from '../styling'
-import { typography } from 'react-native-material-design-styles'
 
 export default class TimeDisplay extends Component {
-  constructor(props) {
-    super(props)
-    this.onPress = this.onPress.bind(this)
-  }
-
-  onPress() {
-    console.log()
+  static propTypes = {
+    time: PropTypes.string.isRequired,
+    onPress: PropTypes.func.isRequired,
   }
 
   render() {
     return (
-      <TouchableOpacity onPress={this.onPress}>
-        <Text style={typography.paperFontDisplay2}>7:30</Text>
+      <TouchableOpacity onPress={this.props.onPress}>
+        <Text style={typography.paperFontDisplay2}>{this.props.time}</Text>
       </TouchableOpacity>
     )
   }

@@ -2,10 +2,15 @@
  * Accumulates all the different selectors
  */
 import * as navigationSelectors from './navigation/selectors'
+import * as alarmSelectors from './alarm/selectors'
 
 const selectors = {}
 Object.keys(navigationSelectors).forEach(
-    funcName => selectors[funcName] = state => navigationSelectors[funcName](state.navigation) 
+    funcName => selectors[funcName] = state => navigationSelectors[funcName](state.navigation),
+)
+
+Object.keys(alarmSelectors).forEach(
+    funcName => selectors[funcName] = state => alarmSelectors[funcName](state.alarm),
 )
 
 // We want to be able to import like this "import { name1, name2 } from 'selectors'"

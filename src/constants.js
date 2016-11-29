@@ -2,4 +2,9 @@ const devSettings = {
     logRedux: true,
 }
 
-export {devSettings}
+const dayKeys = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Pen', 'Pup', 'Nup']
+
+export {
+    devSettings,
+    dayKeys,
+}

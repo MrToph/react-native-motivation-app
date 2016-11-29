@@ -6,14 +6,11 @@ import navigationReducer from './navigation/reducer'
 import settingsReducer from './settings/reducer'
 import { devSettings } from '../constants'
 
-function getStateMiddleWare ({ getState }) {
-  return (next) => (action) => {
-    return next({ ...action, getState: getState })
-  }
+function getStateMiddleWare({ getState }) {
+  return next => action => next({ ...action, getState })
 }
 
-var store
-var middleWares = []
+const middleWares = []
 middleWares.push(thunk)
 middleWares.push(getStateMiddleWare)
 if (devSettings.logRedux) {
@@ -23,8 +20,8 @@ if (devSettings.logRedux) {
 const reducers = combineReducers({
   navigation: navigationReducer,
   settings: settingsReducer,
-  alarm: alarmReducer
+  alarm: alarmReducer,
 })
-store = createStore(reducers, undefined, applyMiddleware(...middleWares))
+const store = createStore(reducers, undefined, applyMiddleware(...middleWares))
 
 export default store

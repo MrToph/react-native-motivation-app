@@ -13,6 +13,7 @@ const styles = {
     borderRadius: repeatButtonSize / 2,
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: repeatButtonSize / 4,
   },
   active: {
     backgroundColor: primaryColor,
