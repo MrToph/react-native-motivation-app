@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react'
-import { StyleSheet, View, TouchableOpacity } from 'react-native'
+import { View, TouchableNativeFeedback } from 'react-native'
 import { connect } from 'react-redux'
-import { color, typography } from 'react-native-material-design-styles'
+import { color } from 'react-native-material-design-styles'
+import { createTimeRepeatButtonPressed } from '../store/alarm/actions'
 import { Text } from '../components'
 import { primaryColor, textColorOnPrimary, repeatButtonSize } from '../styling'
 
@@ -31,6 +32,7 @@ const styles = {
 
 class RepeatButton extends Component {
   static propTypes = {
+    timeCardId: PropTypes.number.isRequired,
     dayKey: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
     active: PropTypes.bool,
@@ -43,14 +45,15 @@ class RepeatButton extends Component {
   }
 
   onPress() {
-    // this.props.dispatchRepButtonClick(this.props.type, this.props.name, this.props.index)
+    // eslint-disable-next-line
+    this.props.dispatchRepeatButtonPressed(this.props.timeCardId, this.props.dayKey)
   }
 
   render() {
     const marginStyle = this.props.isLast ? null : styles.margin
     const activeStyle = this.props.active ? styles.active : null
     return (
-      <TouchableOpacity
+      <TouchableNativeFeedback
         hitSlop={styles.hitSlop}
         onPress={this.onPress}
         delayPressIn={0}
@@ -61,14 +64,14 @@ class RepeatButton extends Component {
             {this.props.text}
           </Text>
         </View>
-      </TouchableOpacity>
+      </TouchableNativeFeedback>
     )
   }
 
 }
 
-const mapDispatchToProps = (dispatch) => ({
-    // dispatchRepButtonClick: (type, name, index) => dispatch(createRepeatButtonClick(type, name, index))
+const mapDispatchToProps = dispatch => ({
+  dispatchRepeatButtonPressed: (id, dayKey) => dispatch(createTimeRepeatButtonPressed(id, dayKey)),
 })
 
 export default connect(null, mapDispatchToProps)(RepeatButton)

@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react'
-import { View } from 'react-native'
+import { ScrollView } from 'react-native'
 import { Icon } from 'react-native-elements'
 import { connect } from 'react-redux'
+import { createTimeNew } from '../store/alarm/actions'
 import { getSchedules } from '../store/selectors'
 import { TimeCard } from '../components'
 import { primaryColor } from '../styling'
@@ -20,6 +21,7 @@ class Alarm extends Component {
               enabled: PropTypes.bool,
               time: PropTypes.string,
               doesRepeat: PropTypes.bool,
+              nextAlarmText: PropTypes.string,
               activeDayMap: PropTypes.shape({
                 Sun: PropTypes.bool,
                 Mon: PropTypes.bool,
@@ -32,20 +34,27 @@ class Alarm extends Component {
             }),
         ).isRequired,
   }
+
+  onNewPress = () => {
+    // eslint-disable-next-line
+    this.props.dispatchTimeNew()
+  }
+
   render() {
     const { schedules } = this.props
     return (
-      <View style={styles.container}>
+      <ScrollView showVerticalScrollbar contentContainerStyle={styles.container}>
         {
           schedules.map(
               (schedule) => {
-                const { id, enabled, time, doesRepeat, activeDayMap } = schedule
+                const { id, enabled, time, doesRepeat, nextAlarmText, activeDayMap } = schedule
                 return (<TimeCard
                   id={id}
                   key={id}
                   enabled={enabled}
                   time={time}
                   doesRepeat={doesRepeat}
+                  nextAlarmText={nextAlarmText}
                   activeDayMap={activeDayMap}
                 />)
               },
@@ -56,9 +65,9 @@ class Alarm extends Component {
           name="plus"
           type="font-awesome"
           color={primaryColor}
-          onPress={() => console.log('hello')}
+          onPress={this.onNewPress}
         />
-      </View>
+      </ScrollView>
     )
   }
 }
@@ -67,4 +76,8 @@ const mapStateToProps = state => ({
   schedules: getSchedules(state),
 })
 
-export default connect(mapStateToProps)(Alarm)
+const mapDispatchToProps = dispatch => ({
+  dispatchTimeNew: () => dispatch(createTimeNew()),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Alarm)

@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import { View } from 'react-native'
 import { CheckBox } from 'react-native-elements'
+import { connect } from 'react-redux'
+import { createTimeRepeatPressed, createTimeRepeatButtonPressed } from '../store/alarm/actions'
 import { RepeatButton } from '../components'
 import { primaryColor } from '../styling'
 import { dayKeys } from '../constants'
@@ -14,11 +16,12 @@ const styles = {
   },
   horizontalStart: {
     alignItems: 'flex-start',
-  }
+  },
 }
 
-export default class RepeatPicker extends Component {
+class RepeatPicker extends Component {
   static propTypes = {
+    timeCardId: PropTypes.number.isRequired,
     doesRepeat: PropTypes.bool,
     activeDayMap: PropTypes.shape({
       Sun: PropTypes.bool,
@@ -31,6 +34,11 @@ export default class RepeatPicker extends Component {
     }),
   }
 
+  onRepeatPress = () => {
+    // eslint-disable-next-line
+    this.props.dispatchTimeRepeatPressed(this.props.timeCardId)
+  }
+
   render() {
     return (
       <View const style={styles.horizontalStart}>
@@ -38,9 +46,10 @@ export default class RepeatPicker extends Component {
           title="Repeat"
           containerStyle={{ borderWidth: 0, backgroundColor: 'transparent', marginHorizontal: 0 }}
           center
-          checked
+          checked={this.props.doesRepeat}
           iconLeft
           checkedColor={primaryColor}
+          onPress={this.onRepeatPress}
         />
         {
           this.props.doesRepeat &&
@@ -48,7 +57,9 @@ export default class RepeatPicker extends Component {
             {
               dayKeys.map(
                   (dayKey, i) => <RepeatButton
-                    key={dayKey} dayKey={dayKey}
+                    timeCardId={this.props.timeCardId}
+                    key={dayKey}
+                    dayKey={dayKey}
                     text={dayKey[0]}
                     active={this.props.activeDayMap[dayKey]}
                     isLast={i === dayKeys.length - 1}
@@ -61,3 +72,10 @@ export default class RepeatPicker extends Component {
     )
   }
 }
+
+const mapDispatchToProps = dispatch => ({
+  dispatchTimeRepeatPressed: id => dispatch(createTimeRepeatPressed(id)),
+  dispatchTimeRepeatButtonPressed: (id, dayKey) => dispatch(createTimeRepeatButtonPressed(id, dayKey)),
+})
+
+export default connect(null, mapDispatchToProps)(RepeatPicker)

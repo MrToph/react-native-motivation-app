@@ -1,24 +1,25 @@
-import React, { Component } from 'react'
-import { View, Text } from 'react-native'
-import { TabBar } from '../components'
-import Video from './Video'
+import React, { Component, PropTypes } from 'react'
+import { View } from 'react-native'
 import { connect } from 'react-redux'
+import { TabBar } from '../components'
 import { getActiveScene } from '../store/selectors'
 
 
 class App extends Component {
-  render () {
-    console.log(this.props.activeScene)
+  static propTypes = {
+    activeScene: PropTypes.string.isRequired,
+  }
+  render() {
     return (
-        <View style={{flex: 1}}>
-          <TabBar activeScene={this.props.activeScene} />
-        </View>
+      <View style={{ flex: 1 }}>
+        <TabBar activeScene={this.props.activeScene} />
+      </View>
     )
   }
 }
 
 const mapStateToProps = state => ({
-  activeScene: getActiveScene(state)
+  activeScene: getActiveScene(state),
 })
 
 export default connect(mapStateToProps)(App)

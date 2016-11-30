@@ -1,9 +1,10 @@
 import React, { Component, PropTypes } from 'react'
 import { TouchableNativeFeedback, TouchableOpacity, View, TimePickerAndroid } from 'react-native'
 import { Card, CheckBox, Icon } from 'react-native-elements'
+import { typography } from 'react-native-material-design-styles'
 import { connect } from 'react-redux'
-import { createTimeChanged } from '../store/alarm/actions'
-import { TimeDisplay, RepeatPicker } from '../components'
+import { createTimeChanged, createTimeDelete, createTimeEnabledPressed } from '../store/alarm/actions'
+import { TimeDisplay, RepeatPicker, Text } from '../components'
 import { primaryColor } from '../styling'
 
 const styles = {
@@ -26,6 +27,7 @@ class TimeCard extends Component {
     id: PropTypes.number.isRequired,  // used for identification when dispatching from this component
     enabled: PropTypes.bool,
     time: PropTypes.string,
+    nextAlarmText: PropTypes.string,
     doesRepeat: PropTypes.bool,
     activeDayMap: PropTypes.shape({
       Sun: PropTypes.bool,
@@ -40,30 +42,31 @@ class TimeCard extends Component {
 
   constructor(props) {
     super(props)
-    this.onBackgroundPress = this.onBackgroundPress.bind(this)
-    this.onDeletePress = this.onDeletePress.bind(this)
     this.showTimePicker = this.showTimePicker.bind(this)
     this.state = {
       timePickerVisible: false,
     }
   }
 
-  onBackgroundPress() {
-    console.log('Clicked on the background. Should fire dispatch that fires Time Picker')
+  onBackgroundPress = () => {
     this.showTimePicker()
   }
 
-  onDeletePress() {
-    console.log()
+  onEnabledPress = () => {
+    // eslint-disable-next-line
+    this.props.dispatchTimeEnabledPressed(this.props.id)
+  }
+
+  onDeletePress = () => {
+    // eslint-disable-next-line
+    this.props.dispatchTimeDelete(this.props.id)
   }
 
   async showTimePicker() {
-    console.log()
     try {
       const { action, hour, minute } = await TimePickerAndroid.open({
         hour: 14,
         minute: 0,
-        is24Hour: false, // Will display '2 PM'
       })
       if (action !== TimePickerAndroid.dismissedAction) {
         // eslint-disable-next-line
@@ -75,24 +78,30 @@ class TimeCard extends Component {
   }
 
   render() {
-    const { enabled, time, doesRepeat, activeDayMap } = this.props
+    const { id, enabled, time, doesRepeat, activeDayMap } = this.props
     return (
       <Card containerStyle={styles.card}>
         <TouchableNativeFeedback onPress={this.onBackgroundPress}>
           <View style={styles.container}>
             <View style={styles.horizontalContainer}>
               <TimeDisplay time={time} onPress={this.showTimePicker} />
+              <Text style={typography.paperFontCaption}>
+                {
+                  this.props.nextAlarmText
+                }
+              </Text>
               <CheckBox
                 containerStyle={{ borderWidth: 0, backgroundColor: 'transparent' }}
                 center
                 checked={enabled}
                 iconRight
                 checkedColor={primaryColor}
+                onPress={this.onEnabledPress}
               />
             </View>
             {
               enabled &&
-              <RepeatPicker doesRepeat={doesRepeat} activeDayMap={activeDayMap} />
+              <RepeatPicker timeCardId={id} doesRepeat={doesRepeat} activeDayMap={activeDayMap} />
             }
             <TouchableOpacity style={{ alignSelf: 'flex-end' }} onPress={this.onDeletePress}>
               <Icon name="delete" size={26} />
@@ -106,6 +115,8 @@ class TimeCard extends Component {
 
 const mapDispatchToProps = dispatch => ({
   dispatchTimeChanged: (id, hour, minute) => dispatch(createTimeChanged(id, hour, minute)),
+  dispatchTimeDelete: id => dispatch(createTimeDelete(id)),
+  dispatchTimeEnabledPressed: id => dispatch(createTimeEnabledPressed(id)),
 })
 
 export default connect(null, mapDispatchToProps)(TimeCard)

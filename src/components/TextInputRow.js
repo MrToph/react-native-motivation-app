@@ -17,7 +17,7 @@ export default class TextInputRow extends Component {
   }
 
   render() {
-    let { textBefore, textAfter, inputStyle, inputProps } = this.props
+    const { textBefore, textAfter, inputStyle, inputProps } = this.props
     return (
       <View style={styles.horizontalContainer}>
         <Text style={[styles.text, typography.paperFontSubhead]}>
