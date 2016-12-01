@@ -6,6 +6,7 @@ import TextInput from './TextInput'
 import TextInputRow from './TextInputRow'
 import TimeCard from './TimeCard'
 import TimeDisplay from './TimeDisplay'
+import VideoPlayer from './VideoPlayer'
 
 export {
     TabBar,
@@ -16,4 +17,5 @@ export {
     RepeatButton,
     RepeatPicker,
     TimeDisplay,
+    VideoPlayer,
 }

@@ -3,7 +3,7 @@ import { AppRegistry } from 'react-native'
 import { hookConsoleLog } from 'stacklogger'
 import { Provider } from 'react-redux'
 import store from './src/store'
-import { createLaunchAction } from './src/store/alarm/actions'
+import { loadStateAndSetAlarms } from './src/store/alarm/actions'
 import App from './src/scenes/App'
 
 hookConsoleLog()
@@ -20,7 +20,7 @@ export default class Motivation extends Component {
   }
 
   componentWillMount() {
-    store.dispatch(createLaunchAction(this.props.alarmID))
+    store.dispatch(loadStateAndSetAlarms(this.props.alarmID))
   }
 
   render() {

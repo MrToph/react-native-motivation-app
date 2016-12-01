@@ -1,74 +1,13 @@
-import React, { Component } from 'react'
-import { View, Text, WebView, Button } from 'react-native'
-import AppLauncher from 'react-native-app-launcher'
-
-export default class Video extends Component {
-  constructor(props) {
-    super(props)
-  }
-
-  onPress = () => {
-    AppLauncher.setAlarm('1', 5, true)
-  }
-
-  onPress2 = () => {
-    AppLauncher.setAlarm('2', 10, true)
-  }
-
-  onClear = () => {
-    AppLauncher.clearAlarm('1')
-  }
-
-  render() {
-    const videoId = 'idyZRfRScbk'
-    const volume = '10'
-    const source = {
-            // html: website,
-      uri: `http://cmichel.io/test/api.html?nocache=${Date.now()}&videoid=${videoId}&volume=${volume}`, // may not be called index.html, bug?
-            // uri: 'http://www.youtube.com/embed/hbkZrOU1Zag?autoplay=1'
-    }
-    return (
-      <View style={styles.container}>
-        <WebView
-          style={styles.webView}
-          javaScriptEnabled
-          injectedJavaScript={''}
-          mediaPlaybackRequiresUserAction={false}
-          allowUniversalAccessFromFileURLs
-          source={source}
-        />
-        <View style={styles.buttonContainer}>
-          <Button
-            style={styles.button}
-            onPress={this.onPress}
-            title="Start Timer"
-            color="#841584"
-            accessibilityLabel="Start the Alarm Manager timer which launches this app."
-          />
-          <Button
-            style={styles.button}
-            onPress={this.onPress2}
-            title="Start Timer 6 minutes"
-            color="#0000ff"
-            accessibilityLabel="Start the Alarm Manager timer which launches this app."
-          />
-          <Button
-            style={styles.button}
-            onPress={this.onClear}
-            title="Clear"
-            color="#ff0000"
-          />
-        </View>
-      </View>
-    )
-  }
-}
+import React, { Component, PropTypes } from 'react'
+import { View, Button } from 'react-native'
+import { connect } from 'react-redux'
+import { VideoPlayer } from '../components'
+import { getVideoState } from '../store/selectors'
+import { createVideoPlayerLoadEnd } from '../store/navigation/actions'
 
 const styles = {
   container: {
     flex: 1,
-  },
-  webView: {
   },
   buttonContainer: {
     padding: 10,
@@ -77,8 +16,52 @@ const styles = {
   },
 }
 
-// <WebView
-//     style={styles.webView}
-//     javaScriptEnabled
-//     source={{uri: 'https://www.youtube.com/embed/hbkZrOU1Zag?rel=0&autoplay=1&showinfo=0&controls=1&loop=1&vq=small'}}
-// />
+
+class Video extends Component {
+  static propTypes = {
+    isVideoActive: PropTypes.bool.isRequired,
+    autoplay: PropTypes.bool.isRequired,
+    reload: PropTypes.bool.isRequired,
+    volume: PropTypes.number.isRequired,
+    playRandom: PropTypes.number.isRequired,
+    playCustomVideoId: PropTypes.string.isRequired,
+  }
+
+  onSnooze = () => {
+  }
+
+  onLoadEnd = () => {
+    // eslint-disable-next-line
+    this.props.dispatchVideoPlayerLoadEnd()
+  }
+
+  render() {
+    const { reload, autoplay, volume, playCustomVideoId, playRandom, isVideoActive } = this.props
+    return (
+      <View style={styles.container}>
+        {
+          isVideoActive &&
+          <VideoPlayer
+            onLoadEnd={this.onLoadEnd}
+            reload={reload}
+            autoplay={autoplay}
+            volume={volume}
+            customVideoId={playRandom ? 'WU54WpQNYic' : playCustomVideoId}
+          />
+        }
+        <Button
+          title="Snooze"
+          onPress={this.onSnooze}
+        />
+      </View>
+    )
+  }
+}
+
+const mapStateToProps = state => getVideoState(state)
+
+const mapDispatchToProps = dispatch => ({
+  dispatchVideoPlayerLoadEnd: () => dispatch(createVideoPlayerLoadEnd()),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Video)

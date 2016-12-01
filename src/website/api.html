@@ -95,7 +95,7 @@ function onPlayerReady(event) {
   event.target.setPlaybackQuality('small')
   // volume between 0 and 100
   event.target.setVolume(params['volume'] ? parseInt(params['volume']) : 0);
-  event.target.playVideo();
+  if(params['autoplay']) event.target.playVideo();
 }
     </script>
   </body>

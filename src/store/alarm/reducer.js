@@ -1,26 +1,13 @@
 import Immutable from 'seamless-immutable'
 import AppLauncher from 'react-native-app-launcher'
 import moment from 'moment'
+import { AsyncStorage } from 'react-native'
 import { dayKeys } from '../../constants'
 
-console.log(AppLauncher)
 /**
- * A schedule object is the visual representation of an alarm.
+ * Given a time (hour, minute) and some scheduling information (doesRepeat, repeatMap) computes the next
+ * Date to fire an alarm
  */
-const createScheduleObj = (id, enabled, doesRepeat, hour, minute) => ({
-  id: 1,
-  enabled: typeof enabled === 'undefined' ? true : enabled,
-  time: {
-    hour: hour || 15,
-    minute: minute || 12,
-  },
-  doesRepeat: typeof doesRepeat === 'undefined' ? true : doesRepeat,
-  repeatMap: dayKeys.reduce(
-                (obj, dayKey, i) => Object.assign(obj, { [dayKey]: i > 0 && i < 6 }),
-                {},
-            ),
-})
-
 export const computeNextAlarmTimestamp = (hour, minute, doesRepeat, repeatMap) => {
   const bufferSeconds = 5  // to prevent double firing
   const now = moment()
@@ -28,7 +15,6 @@ export const computeNextAlarmTimestamp = (hour, minute, doesRepeat, repeatMap) =
   fire.hour(hour)
   fire.minute(minute)
   fire.seconds(0)
-  
 
   // no repeat => fire as soon as possible once
   if (!doesRepeat) {
@@ -49,7 +35,6 @@ export const computeNextAlarmTimestamp = (hour, minute, doesRepeat, repeatMap) =
   }
 
   // cannot fire today, find correct day of the week starting with tomorrow checking one full week inclusive
-  // no % 7
   for (let offset = 1; offset <= 7; offset += 1) {
     if (repeatMap[dayKeys[(dayKeyIndex + offset) % 7]]) {
       fire.day(dayKeyIndex + offset, 'days')  // no % 7 because of the way moment.js works with last/next week
@@ -81,6 +66,23 @@ const setAlarm = (scheduleObj) => {
   }
 }
 
+/**
+ * A schedule object is the visual representation of an alarm.
+ */
+const createScheduleObj = (id, enabled, doesRepeat, hour, minute) => ({
+  id,
+  enabled: typeof enabled === 'undefined' ? true : enabled,
+  time: {
+    hour: hour || 7,
+    minute: minute || 30,
+  },
+  doesRepeat: typeof doesRepeat === 'undefined' ? true : doesRepeat,
+  repeatMap: dayKeys.reduce(
+                (obj, dayKey, i) => Object.assign(obj, { [dayKey]: i > 0 && i < 6 }),
+                {},
+            ),
+})
+
 const defaultState = Immutable({
   scheduleIds: [1, 2],
   schedulesById: {
@@ -101,18 +103,47 @@ const defaultState = Immutable({
   },
 })
 
+const saveAndReturnState = (state) => {
+  AsyncStorage.setItem('alarm', JSON.stringify(state.asMutable()))
+  return state
+}
+
 const reducer = (state = defaultState, action) => {
   switch (action.type) {
+    case 'ALARM_STATE_LOADED': {
+      const { stateString } = action.payload
+      if (stateString == null) saveAndReturnState(state)  // nothing stored => return default state
+      try {
+        const parsedState = JSON.parse(stateString)
+        // corrupt state outside of our app, return
+        if (typeof parsedState !== 'object') return saveAndReturnState(state)
+        return Immutable(parsedState)
+      } catch (err) {
+        return saveAndReturnState(state)
+      }
+    }
     case 'APP_LAUNCHED': {
       const { alarmId } = action.payload
+      // turn alarm with alarmId off if it was on no-repeat
+      let newState = state
+      if (state.schedulesById[alarmId] && !state.schedulesById[alarmId].doesRepeat) {
+        newState = state.merge({
+          schedulesById: {
+            [alarmId]: {
+              enabled: false,
+            },
+          },
+        }, { deep: true })
+      }
+
       // create alarms
       const alarmsById = {}
-      state.scheduleIds.forEach(
+      newState.scheduleIds.forEach(
         (id) => {
-          alarmsById[id] = setAlarm(state.schedulesById[id])
+          alarmsById[id] = setAlarm(newState.schedulesById[id])
         },
       )
-      return state.set('alarmsById', alarmsById)
+      return saveAndReturnState(newState.set('alarmsById', alarmsById))
     }
     case 'TIME_CHANGED': {
       const { id, hour, minute } = action.payload
@@ -131,7 +162,7 @@ const reducer = (state = defaultState, action) => {
           [id]: setAlarm(mergedState.schedulesById[id]),
         },
       }, { deep: true })
-      return mergedState
+      return saveAndReturnState(mergedState)
     }
     case 'TIME_NEW': {
       let scheduleIds = state.scheduleIds
@@ -150,13 +181,12 @@ const reducer = (state = defaultState, action) => {
           [nextId]: setAlarm(mergedState.schedulesById[nextId]),
         },
       }, { deep: true })
-      return mergedState
+      return saveAndReturnState(mergedState)
     }
     case 'TIME_DELETE': {
       const { id } = action.payload
       const scheduleIds = state.scheduleIds.filter(val => val !== id)
-      // TODO: call clear alarm
-      return state.merge({
+      const mergedState = state.merge({
         scheduleIds,
         schedulesById: {
           [id]: undefined,
@@ -165,6 +195,10 @@ const reducer = (state = defaultState, action) => {
           [id]: undefined,
         },
       }, { deep: true })
+
+      // clear alarm for deleted id
+      AppLauncher.clearAlarm(id)
+      return saveAndReturnState(mergedState)
     }
     case 'ENABLED_PRESSED': {
       const { id } = action.payload
@@ -181,7 +215,7 @@ const reducer = (state = defaultState, action) => {
           [id]: setAlarm(mergedState.schedulesById[id]),
         },
       }, { deep: true })
-      return mergedState
+      return saveAndReturnState(mergedState)
     }
     case 'REPEAT_PRESSED': {
       const { id } = action.payload
@@ -198,7 +232,7 @@ const reducer = (state = defaultState, action) => {
           [id]: setAlarm(mergedState.schedulesById[id]),
         },
       }, { deep: true })
-      return mergedState
+      return saveAndReturnState(mergedState)
     }
     case 'REPEAT_BUTTON_PRESSED': {
       const { id, dayKey } = action.payload
@@ -217,7 +251,7 @@ const reducer = (state = defaultState, action) => {
           [id]: setAlarm(mergedState.schedulesById[id]),
         },
       }, { deep: true })
-      return mergedState
+      return saveAndReturnState(mergedState)
     }
     default:
       return state

@@ -4,3 +4,9 @@ export function createTabPress(tabName) {
     payload: tabName,
   }
 }
+
+export function createVideoPlayerLoadEnd() {
+  return {
+    type: 'VIDEO_PLAYER_LOAD_END',
+  }
+}

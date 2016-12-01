@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { TabBar } from '../components'
 import { getActiveScene } from '../store/selectors'
 
-
 class App extends Component {
   static propTypes = {
     activeScene: PropTypes.string.isRequired,
