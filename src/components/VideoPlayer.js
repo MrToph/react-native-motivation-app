@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { WebView } from 'react-native'
+import { apiSource } from '../constants'
 
 const styles = {
   webView: {
@@ -33,8 +34,7 @@ export default class VideoPlayer extends Component {
     const { autoplay, volume, customVideoId } = this.props
     const source = {
     // may not be called index.html, bug?
-      uri: 'http://cmichel.io/test/api.html?nocache='
-            + `${Date.now()}&volume=${volume}`
+      uri: `${apiSource}?nocache=${Date.now()}&volume=${volume}`
             + `${autoplay ? `&autoplay=${autoplay}` : null}`
             + `${customVideoId ? `&videoid=${customVideoId}` : null}`,
     }
