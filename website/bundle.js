@@ -114,7 +114,7 @@
 	if(params.videoId)return params.videoId;
 
 	var dayOfYear=getDayOfYear();
-	var playlistLength=Object.keys(_playlist2.default);
+	var playlistLength=Object.keys(_playlist2.default).length;
 	console.log('dayOfYear',dayOfYear);
 	console.log(_playlist2.default);
 	return _playlist2.default[dayOfYear%playlistLength];

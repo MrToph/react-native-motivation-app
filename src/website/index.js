@@ -68,7 +68,7 @@ function getVideoId() {
   if (params.videoId) return params.videoId
 
   const dayOfYear = getDayOfYear()
-  const playlistLength = Object.keys(playlist)
+  const playlistLength = Object.keys(playlist).length
   console.log('dayOfYear', dayOfYear)
   console.log(playlist)
   return playlist[dayOfYear % playlistLength]
