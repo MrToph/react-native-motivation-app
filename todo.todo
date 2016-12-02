@@ -1,6 +1,15 @@
 Bugs:
 
 Features:
+	☐ Snooze: Component for Alarm.js. Only visible when snooze on and positioned above other TimeCards
+	☐ Snooze: Reducer: Enabled always on, no doesRepeat. Only action delete. When appLaunched and alarmId=Snooze rem
+	☐ Snooze Time in Settings: Avg 15 min.
+	☐ Settings: Component
+	☐ Settings: Reducer
+	☐ About: Component
+	☐ About: Reducer
+	☐ Rework Alarm.js UI: Better enabled-Slider, AddButton absolute positioning
+	☐ Rework TabBar UI
 
 Dev-Features:
-	☐ ES-Lint in VS Code
+	✔ ES-Lint in VS Code @done (December 1st 2016, 20:38)

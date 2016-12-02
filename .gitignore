@@ -42,3 +42,4 @@ android/app/libs
 
 # Custom
 *.bat
+src/website/playlist.json
