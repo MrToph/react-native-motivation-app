@@ -1,24 +1,32 @@
-import React, { Component, PropTypes } from 'react'
+import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { Tabs, Tab, Icon } from 'react-native-elements'
-import Video from '../scenes/Video'
 import routes, { routeKeys } from '../routes'
 import { createTabPress } from '../store/navigation/actions'
-import Badge from '../../node_modules/react-native-tab-navigator/Badge'
+// import Badge from '../../node_modules/react-native-tab-navigator/Badge'
+import { textColor, primaryColor, dark2 } from '../styling'
 
-class TabBar extends Component {
-  render() {
-    return (
-      <Tabs>
-        {
-                    routeKeys.map(routeKey => this.renderTab(routeKey, routes[routeKey]))
-                }
-      </Tabs>
-    )
+const styles = {
+  tabBarStyle: {
+    backgroundColor: 'black',
+  },
+  tabSelected: {
+  },
+  titleStyle: {
+    color: textColor,
+  },
+  titleSelected: {
+    color: primaryColor,
+  },
+}
+
+class TabBar extends React.Component {
+  static propTypes = {
+    activeScene: PropTypes.string.isRequired,
   }
 
   changeTab(selectedTab) {
-    console.log(selectedTab)
+    // eslint-disable-next-line
     this.props.dispatchTabPress(selectedTab)
   }
 
@@ -28,29 +36,29 @@ class TabBar extends Component {
     return (
       <Tab
         key={routeKey}
-        tabStyle={selectedTab !== routeKey && styles.tabSelected}
+        tabStyle={[{ backgroundColor: dark2 }, selectedTab !== routeKey && styles.tabSelected]}
         titleStyle={[styles.titleStyle]}
         selectedTitleStyle={[styles.titleSelected]}
         selected={selectedTab === routeKey}
         title={selectedTab === routeKey ? title : null}
-        renderIcon={() => <Icon name={iconName} size={26} />}
-        renderSelectedIcon={() => <Icon name={iconName} size={26} />}
-        renderBadge={() => <Badge style={styles.tabBarBadge}>3</Badge>}
+        renderIcon={() => <Icon name={iconName} color={textColor} size={26} />}
+        renderSelectedIcon={() => <Icon name={iconName} color={primaryColor} size={26} />}
         onPress={() => this.changeTab(routeKey)}
       >
-        <Component />
+        <Component style={styles.tabBarStyle} />
       </Tab>
     )
   }
-}
 
-TabBar.propTypes = {
-  activeScene: PropTypes.string.isRequired,
-}
-
-const styles = {
-  tabSelected: {
-  },
+  render() {
+    return (
+      <Tabs>
+        {
+          routeKeys.map(routeKey => this.renderTab(routeKey, routes[routeKey]))
+        }
+      </Tabs>
+    )
+  }
 }
 
 const mapDispatchToProps = dispatch => ({
