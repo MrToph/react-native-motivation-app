@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react'
-import { TouchableNativeFeedback, TouchableOpacity, View, TimePickerAndroid } from 'react-native'
+import { TouchableNativeFeedback, TouchableOpacity, View, TimePickerAndroid, Switch } from 'react-native'
 import { Card, CheckBox, Icon } from 'react-native-elements'
 import { typography } from 'react-native-material-design-styles'
 import { connect } from 'react-redux'
 import { createTimeChanged, createTimeDelete, createTimeEnabledPressed } from '../store/alarm/actions'
 import { TimeDisplay, RepeatPicker, Text } from '../components'
-import { primaryColor } from '../styling'
+import { primaryColor, dark2, dark4 } from '../styling'
 
 const styles = {
   horizontalContainer: {
@@ -16,6 +16,8 @@ const styles = {
   },
   card: {
     alignSelf: 'stretch',
+    backgroundColor: dark4,
+    borderColor: dark2,
   },
   container: {
     alignItems: 'flex-start',
@@ -90,13 +92,9 @@ class TimeCard extends Component {
                   this.props.nextAlarmText
                 }
               </Text>
-              <CheckBox
-                containerStyle={{ borderWidth: 0, backgroundColor: 'transparent' }}
-                center
-                checked={enabled}
-                iconRight
-                checkedColor={primaryColor}
-                onPress={this.onEnabledPress}
+              <Switch
+                value={enabled}
+                onValueChange={this.onEnabledPress}
               />
             </View>
             {

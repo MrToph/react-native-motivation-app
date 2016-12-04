@@ -1,22 +1,102 @@
-import React, { Component } from 'react'
-import { View } from 'react-native'
-
-export default class About extends Component {
-    constructor(props) {
-        super(props)
-    }
-
-    render() {
-        return (
-            <View>
-            </View>
-        )
-    }
-
-    componentWillUnmount() {
-        console.log()
-    }
-}
+import React, { Component, PropTypes } from 'react'
+import { ScrollView, View, TouchableOpacity, Linking } from 'react-native'
+import { typography } from 'react-native-material-design-styles'
+import Device from 'react-native-device-info'
+import { Text } from '../components'
+import { packageName, appName, mail } from '../constants'
+import { primaryColor } from '../styling'
 
 const styles = {
+  horizontalContainer: { flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' },
+  text: { marginLeft: 16 }, // as in Checkbox from material-design
+  textInput: { flex: 0, width: 60, textAlign: 'center' }, // overwrite standard flex: 1 in TextInputRow
+  subheading: { marginTop: 25, color: primaryColor, textAlign: 'center' },
+}
+
+export default class About extends Component {
+  onFeedback = () => {
+    let body = `\n\n-------------\nWrite above this line\n${Device.getManufacturer()} | ${Device.getBrand()} | `
+    body += `${Device.getModel()} | ${Device.getDeviceId()}\n`
+    body += `${Device.getSystemName()} ${Device.getSystemVersion()} | Build: ${Device.getReadableVersion()} ${Device.getDeviceLocale()}`
+    Linking.openURL(`mailto:${mail}?subject=[${appName}]%20Feedback&body=${body}`).catch(err => console.log('About:onFeedback', err))
+  }
+
+  onRate = () => {
+    Linking.openURL(`market://details?id=${packageName}`).catch((err) => {
+      console.log('About:onRate1', err)
+      // try to open it in browser
+      Linking.openURL(`http://play.google.com/store/apps/details?id=${packageName}`).catch((err) => {
+        console.log('About:onRate2', err)
+      })
+    })
+  }
+
+  onWebsite = () => {
+    Linking.openURL(`http://cmichel.io/?ref=${appName}`).catch(err => console.log('About:onWebsite', err))
+  }
+
+  onTwitter = () => {
+    Linking.openURL('https://twitter.com/cmichelio').catch(err => console.log('About:onTwitter', err))
+  }
+
+  render() {
+    return (
+      <ScrollView showsVerticalScrollIndicator>
+        <Text style={[typography.paperFontTitle, styles.text, styles.subheading]}>
+          Application
+        </Text>
+        <Text style={[typography.paperFontSubhead, styles.text]}>
+          {`Version: ${Device.getReadableVersion()}`}
+        </Text>
+        <TouchableOpacity onPress={this.onFeedback}>
+          <View>
+            <Text style={[typography.paperFontSubhead, styles.text]}>
+              Feedback
+            </Text>
+            <Text style={[styles.text]}>
+              Suggestions? Comments? Bugs? Click to mail me.
+            </Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={this.onRate}>
+          <Text style={[typography.paperFontSubhead, styles.text]}>
+            Rate this app
+          </Text>
+          <Text style={[styles.text]}>
+            {'If you like this app, please rate it.\nIt helps more people discover it and motivates me to work on new features.'}
+          </Text>
+        </TouchableOpacity>
+        <Text style={[typography.paperFontTitle, styles.text, styles.subheading]}>
+          Social Media
+        </Text>
+        <TouchableOpacity onPress={this.onWebsite}>
+          <Text style={[typography.paperFontSubhead, styles.text]}>
+            Developer Website
+          </Text>
+          <Text style={[styles.text]}>
+            Want to get in touch with me personally? Want to hire me?
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={this.onTwitter}>
+          <Text style={[typography.paperFontSubhead, styles.text]}>
+            Developer Twitter
+          </Text>
+          <Text style={[styles.text]}>
+            Follow me on Twitter: @cmichelio
+          </Text>
+        </TouchableOpacity>
+        <Text style={[typography.paperFontTitle, styles.text, styles.subheading]}>
+          Videos
+        </Text>
+        <Text style={[typography.paperFontSubhead, styles.text]}>
+            The videos are taken from the following YouTube channels:
+          </Text>
+        <Text style={[styles.text]} multiline>
+          {
+            'Absolute Motivation\nMulliganBrothers Motivation\nRedFrost Motivation'
+          }
+        </Text>
+      </ScrollView>
+    )
+  }
 }

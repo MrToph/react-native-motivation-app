@@ -1,11 +1,15 @@
+// Dark Color theme colors: https://material.google.com/style/color.html#color-themes
+// https://github.com/PolymerElements/paper-styles/blob/master/color.html
 import { color } from 'react-native-material-design-styles'
 
-const primary = 'paperRed' // paperDeepPurple500 = #673ab7
+const primary = 'paperRed' // #f44336
 const primaryColor = color[`${primary}500`].color
-const textColor = color.paperGreen900.color
+const textColor = color.paperGrey50.color
 const textColorOnPrimary = color.paperGrey50.color
-const adBannerHeight = 50
+const dark2 = '#212121'
+const dark4 = '#424242'
 
+const adBannerHeight = 50
 const repeatButtonSize = 40
 
 // http://colorbrewer2.org/#type=qualitative&scheme=Paired&n=10
@@ -16,6 +20,8 @@ export {
   primaryColor,
   textColor,
   textColorOnPrimary,
+  dark2,
+  dark4,
   adBannerHeight,
   graphColors,
   repeatButtonSize,

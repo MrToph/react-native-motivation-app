@@ -1,8 +1,17 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
+    <style name="AppTheme" parent="Theme.AppCompat">
+          <!-- your app branding color for the app bar -->
+        <item name="colorPrimary">#f44336</item>
+        <!-- darker variant for the status bar and contextual app bars -->
+        <item name="colorPrimaryDark">#f44336</item>
+        <!-- theme UI controls like checkboxes and text fields -->
+        <item name="colorAccent">#f44336</item>
+        <item name="android:timePickerDialogTheme">@style/Dialog.Theme</item>
     </style>
-
+    <style name="Dialog.Theme" parent="Theme.AppCompat.Dialog">
+	    <item name="colorAccent">#f44336</item>
+	    <item name="android:textColorPrimary">#f44336</item>
+ 	</style>
 </resources>

@@ -88,25 +88,6 @@ class Settings extends Component {
             defaultValue: typeof volume !== 'undefined' ? volume.toString() : '',
           }}
         />
-        <CheckBox
-          title="Play Custom YouTube Video"
-          containerStyle={{ borderWidth: 0, backgroundColor: 'transparent', marginHorizontal: 0 }}
-          textStyle={textStyle}
-          checked={this.props.playCustom}
-          iconLeft
-          checkedColor={primaryColor}
-          onPress={this.onCustomVideoPress}
-        />
-        <TextInputRow
-          textBefore="YouTube Video-ID:"
-          onSubmit={this.onYouTubeSubmit}
-          inputStyle={[styles.textInput, styles.customVideoInput]}
-          inputProps={{
-            placeholder: 'Video-ID',
-            maxLength: 15,
-            defaultValue: typeof playCustomVideoId !== 'undefined' ? playCustomVideoId : '',
-          }}
-        />
         <TextInputRow
           textBefore="Snooze Time:"
           textAfter="minutes"
@@ -119,6 +100,27 @@ class Settings extends Component {
             defaultValue: typeof snoozeMinutes !== 'undefined' ? snoozeMinutes.toString() : '',
           }}
         />
+        <CheckBox
+          title="Play Custom YouTube Video"
+          containerStyle={{ borderWidth: 0, backgroundColor: 'transparent', marginHorizontal: 0 }}
+          textStyle={textStyle}
+          checked={this.props.playCustom}
+          iconLeft
+          checkedColor={primaryColor}
+          onPress={this.onCustomVideoPress}
+        />
+        {this.props.playCustom &&
+        <TextInputRow
+          textBefore="YouTube Video-ID:"
+          onSubmit={this.onYouTubeSubmit}
+          inputStyle={[styles.textInput, styles.customVideoInput]}
+          inputProps={{
+            placeholder: 'Video-ID',
+            maxLength: 15,
+            defaultValue: typeof playCustomVideoId !== 'undefined' ? playCustomVideoId : '',
+          }}
+        />
+        }
       </View>
     )
   }

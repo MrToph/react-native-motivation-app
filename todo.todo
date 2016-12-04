@@ -1,16 +1,19 @@
 Bugs:
+	✔ AlarmManager still fires at inexact times even with setExact. Switch to setAlarmClock or setExactAndAllowWhileIdle @done (December 4th 2016, 19:59)
+	https://developer.android.com/reference/android/app/AlarmManager.html#setAlarmClock(android.app.AlarmManager.AlarmClockInfo, android.app.PendingIntent)
+	https://plus.google.com/+AndroidDevelopers/posts/GdNrQciPwqo
 
 Features:
+	✔ PlayList and API @done (December 2nd 2016, 18:17)
+	✔ Settings: Component @done (December 4th 2016, 19:10)
+	✔ Settings: Reducer @done (December 4th 2016, 19:10)
+	✔ About: Component @done (December 4th 2016, 21:54)
+	☐ TimePicker Style
 	☐ Snooze: Component for Alarm.js. Only visible when snooze on and positioned above other TimeCards
 	☐ Snooze: Reducer: Enabled always on, no doesRepeat. Only action delete. When appLaunched and alarmId=Snooze rem
 	☐ Snooze Time in Settings: Avg 15 min.
-	☐ Settings: Component
-	☐ Settings: Reducer
-	☐ About: Component
-	☐ About: Reducer
 	☐ Rework Alarm.js UI: Better enabled-Slider, AddButton absolute positioning
 	☐ Rework TabBar UI
-	✔ PlayList and API @done (December 2nd 2016, 18:17)
 
 Dev-Features:
 	✔ ES-Lint in VS Code @done (December 1st 2016, 20:38)
