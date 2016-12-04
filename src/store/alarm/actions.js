@@ -1,14 +1,3 @@
-import { AsyncStorage } from 'react-native'
-
-export function createLaunchAction(alarmId) {
-  return {
-    type: 'APP_LAUNCHED',
-    payload: {
-      alarmId: parseInt(alarmId, 10),
-    },
-  }
-}
-
 export function createTimeChanged(id, hour, minute) {
   return {
     type: 'TIME_CHANGED',
@@ -67,32 +56,5 @@ export function createAlarmStateLoad(stateString) {
     payload: {
       stateString,
     },
-  }
-}
-
-// not used right now
-export function createStateLoadError(error) {
-  return {
-    type: 'STATE_LOAD_ERROR',
-    payload: {
-      error,
-    },
-  }
-}
-
-// THUNKS
-function loadState(type) {
-  return AsyncStorage.getItem(type)  // full app state for alarm, settings
-}
-
-export function loadStateAndSetAlarms(alarmId) {
-  return function (dispatch) {
-    return loadState('alarm').then(
-      stateString => dispatch(createAlarmStateLoad(stateString)),
-    )
-    .then(
-      () => dispatch(createLaunchAction(alarmId)),
-    )
-    .done()
   }
 }

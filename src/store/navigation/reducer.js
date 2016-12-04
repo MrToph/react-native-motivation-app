@@ -25,7 +25,7 @@ const reducer = (state = defaultState, action) => {
       }
       return state
     }
-    case 'TAB_PRESS': {
+    case 'TAB_PRESSED': {
       return state.merge({
         activeScene: action.payload,
         video: {

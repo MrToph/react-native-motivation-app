@@ -10,6 +10,7 @@ Features:
 	☐ About: Reducer
 	☐ Rework Alarm.js UI: Better enabled-Slider, AddButton absolute positioning
 	☐ Rework TabBar UI
+	✔ PlayList and API @done (December 2nd 2016, 18:17)
 
 Dev-Features:
 	✔ ES-Lint in VS Code @done (December 1st 2016, 20:38)

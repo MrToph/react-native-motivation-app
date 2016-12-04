@@ -3,6 +3,7 @@
  */
 import * as navigationSelectors from './navigation/selectors'
 import * as alarmSelectors from './alarm/selectors'
+import * as settingsSelectors from './settings/selectors'
 
 const selectors = {}
 Object.keys(navigationSelectors).forEach(
@@ -11,6 +12,10 @@ Object.keys(navigationSelectors).forEach(
 
 Object.keys(alarmSelectors).forEach(
     funcName => selectors[funcName] = state => alarmSelectors[funcName](state.alarm),
+)
+
+Object.keys(settingsSelectors).forEach(
+    funcName => selectors[funcName] = state => settingsSelectors[funcName](state.settings),
 )
 
 selectors.getVideoState = function getVideoState(state) {

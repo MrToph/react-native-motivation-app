@@ -123,7 +123,9 @@ const reducer = (state = defaultState, action) => {
       }
     }
     case 'APP_LAUNCHED': {
-      const { alarmId } = action.payload
+      let { alarmId } = action.payload
+      if (!isNaN(alarmId)) alarmId = parseInt(alarmId, 10)
+
       // turn alarm with alarmId off if it was on no-repeat
       let newState = state
       if (state.schedulesById[alarmId] && !state.schedulesById[alarmId].doesRepeat) {

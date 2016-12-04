@@ -4,6 +4,7 @@ import { CheckBox } from 'react-native-elements'
 import { connect } from 'react-redux'
 import { createTimeRepeatPressed, createTimeRepeatButtonPressed } from '../store/alarm/actions'
 import { RepeatButton } from '../components'
+import { textStyle } from '../components/Text'
 import { primaryColor } from '../styling'
 import { dayKeys } from '../constants'
 
@@ -45,6 +46,7 @@ class RepeatPicker extends Component {
         <CheckBox
           title="Repeat"
           containerStyle={{ borderWidth: 0, backgroundColor: 'transparent', marginHorizontal: 0 }}
+          textStyle={textStyle}
           center
           checked={this.props.doesRepeat}
           iconLeft

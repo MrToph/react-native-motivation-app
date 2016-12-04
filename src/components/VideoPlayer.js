@@ -4,7 +4,7 @@ import { apiSource } from '../constants'
 
 const styles = {
   webView: {
-      flex: 1,
+    flex: 1,
   },
 }
 
@@ -38,7 +38,7 @@ export default class VideoPlayer extends Component {
             + `${autoplay ? `&autoplay=${autoplay}` : null}`
             + `${customVideoId ? `&videoid=${customVideoId}` : null}`,
     }
-    console.log(source.uri)
+    console.log(source.uri, volume)
     return (
       <WebView
         style={styles.webView}

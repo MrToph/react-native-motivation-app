@@ -3,7 +3,7 @@ import { AppRegistry } from 'react-native'
 import { hookConsoleLog } from 'stacklogger'
 import { Provider } from 'react-redux'
 import store from './src/store'
-import { loadStateAndSetAlarms } from './src/store/alarm/actions'
+import { loadStateAndSetAlarms } from './src/store/navigation/actions'
 import App from './src/scenes/App'
 
 hookConsoleLog()
