@@ -63,17 +63,15 @@ function getDayOfYear() {   // http://stackoverflow.com/a/26426761
 }
 
 const params = getAllUrlParams()
-
+console.log(params)
 function getVideoId() {
-  if (params.videoId) return params.videoId
+  if (params.videoid) return params.videoid
 
   const dayOfYear = getDayOfYear()
   const playlistLength = Object.keys(playlist).length
-  console.log('dayOfYear', dayOfYear)
-  console.log(playlist)
   return playlist[dayOfYear % playlistLength]
 }
-const videoId = getVideoId() || 'nihfLAMgYMY' // default video if everything else fails
+const videoId = getVideoId() || 'SuPLxQD4akQ' // default video if everything else fails
 
 // The API will call this function when the video player is ready.
 function onPlayerReady(event) {

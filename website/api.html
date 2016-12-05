@@ -8,16 +8,20 @@
         margin: 0;
         padding: 0;
       }
-      html, body, #player {
+      html, body{
         width: 100%;
         height: 100%;
+        overflow: hidden;
+      }
+      html, body, #player {
+        background-color: black;
       }
     </style>
   </head>
   <body>
     <!-- The <iframe> (and video player) will replace this <div> tag. -->
     <div id="player"></div>
-    <script src="./bundle.js?v=10"></script> <!-- Has to come before ifame_api -->
+    <script src="./bundle.js?v=13"></script> <!-- Has to come before ifame_api -->
     <script src="https://www.youtube.com/iframe_api"></script>
   </body>
 </html>

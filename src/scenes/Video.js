@@ -1,18 +1,21 @@
 import React, { Component, PropTypes } from 'react'
 import { View, Button } from 'react-native'
+// import {  } from 'react-native-elements'
 import { connect } from 'react-redux'
 import { VideoPlayer } from '../components'
 import { getVideoState } from '../store/selectors'
 import { createVideoPlayerLoadEnd } from '../store/navigation/actions'
+import { primaryColor } from '../styling'
 
 const styles = {
   container: {
     flex: 1,
+    padding: 0,
+    margin: 0,
   },
   buttonContainer: {
-    padding: 10,
-    height: 200,
-    justifyContent: 'space-around',
+    // margin: 0,
+    // padding: 0,
   },
 }
 
@@ -23,7 +26,7 @@ class Video extends Component {
     autoplay: PropTypes.bool.isRequired,
     reload: PropTypes.bool.isRequired,
     volume: PropTypes.number.isRequired,
-    playRandom: PropTypes.number.isRequired,
+    playRandom: PropTypes.bool.isRequired,
     playCustomVideoId: PropTypes.string.isRequired,
   }
 
@@ -37,6 +40,7 @@ class Video extends Component {
 
   render() {
     const { reload, autoplay, volume, playCustomVideoId, playRandom, isVideoActive } = this.props
+    console.log(this.props)
     return (
       <View style={styles.container}>
         {
@@ -46,11 +50,14 @@ class Video extends Component {
             reload={reload}
             autoplay={autoplay}
             volume={volume}
-            customVideoId={playRandom ? 'WU54WpQNYic' : playCustomVideoId}
+            customVideoId={playRandom ? '' : playCustomVideoId}
           />
         }
         <Button
           title="Snooze"
+          large
+          style={styles.buttonContainer}
+          color={primaryColor}
           onPress={this.onSnooze}
         />
       </View>

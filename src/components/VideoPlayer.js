@@ -1,10 +1,12 @@
 import React, { Component, PropTypes } from 'react'
 import { WebView } from 'react-native'
+import { dark3 } from '../styling'
 import { apiSource } from '../constants'
 
 const styles = {
   webView: {
     flex: 1,
+    backgroundColor: dark3,
   },
 }
 
@@ -13,8 +15,8 @@ export default class VideoPlayer extends Component {
     autoplay: PropTypes.bool.isRequired,
     reload: PropTypes.bool.isRequired,
     volume: PropTypes.number.isRequired,
-    customVideoId: PropTypes.string,    // if defined we should play
-    onLoadEnd: PropTypes.func,
+    customVideoId: PropTypes.string.isRequired,    // if defined we should play
+    onLoadEnd: PropTypes.func.isRequired,
   }
 
   // onMessage = (event) => {
@@ -35,10 +37,10 @@ export default class VideoPlayer extends Component {
     const source = {
     // may not be called index.html, bug?
       uri: `${apiSource}?nocache=${Date.now()}&volume=${volume}`
-            + `${autoplay ? `&autoplay=${autoplay}` : null}`
-            + `${customVideoId ? `&videoid=${customVideoId}` : null}`,
+            + `${autoplay ? `&autoplay=${autoplay}` : ''}`
+            + `${customVideoId ? `&videoid=${customVideoId}` : ''}`,
     }
-    console.log(source.uri, volume)
+    console.log(source.uri, customVideoId)
     return (
       <WebView
         style={styles.webView}

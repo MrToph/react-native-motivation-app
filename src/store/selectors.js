@@ -24,7 +24,7 @@ selectors.getVideoState = function getVideoState(state) {
     autoplay: state.navigation.video.autoplay,
     reload: state.navigation.video.reload,
     volume: state.settings.volume,
-    playRandom: state.settings.volume,
+    playRandom: state.settings.playRandom,
     playCustomVideoId: state.settings.playCustomVideoId,
   }
 }

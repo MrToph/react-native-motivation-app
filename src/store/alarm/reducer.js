@@ -114,7 +114,7 @@ const reducer = (state = defaultState, action) => {
   switch (action.type) {
     case 'ALARM_STATE_LOADED': {
       const { stateString } = action.payload
-      if (stateString == null) saveAndReturnState(state)  // nothing stored => return default state
+      if (stateString == null) return saveAndReturnState(state)  // nothing stored => return default state
       try {
         const parsedState = JSON.parse(stateString)
         // corrupt state outside of our app, return

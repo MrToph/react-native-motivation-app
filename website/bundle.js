@@ -109,17 +109,15 @@
 	}
 
 	var params=getAllUrlParams();
-
+	console.log(params);
 	function getVideoId(){
-	if(params.videoId)return params.videoId;
+	if(params.videoid)return params.videoid;
 
 	var dayOfYear=getDayOfYear();
 	var playlistLength=Object.keys(_playlist2.default).length;
-	console.log('dayOfYear',dayOfYear);
-	console.log(_playlist2.default);
 	return _playlist2.default[dayOfYear%playlistLength];
 	}
-	var videoId=getVideoId()||'nihfLAMgYMY';
+	var videoId=getVideoId()||'SuPLxQD4akQ';
 
 
 	function onPlayerReady(event){
