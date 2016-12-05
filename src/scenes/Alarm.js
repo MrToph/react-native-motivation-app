@@ -1,16 +1,27 @@
 import React, { Component, PropTypes } from 'react'
-import { ScrollView } from 'react-native'
+import { View, ScrollView } from 'react-native'
 import { Icon } from 'react-native-elements'
 import { connect } from 'react-redux'
 import { createTimeNew } from '../store/alarm/actions'
 import { getSchedules } from '../store/selectors'
 import { TimeCard } from '../components'
-import { primaryColor } from '../styling'
+import { primaryColor, textColor } from '../styling'
 
 const styles = {
   container: {
     justifyContent: 'flex-start',
     alignItems: 'center',
+    paddingBottom: 90, // so the floating button can be scrolled down without overlaying any TimeCards
+  },
+  actionButtonContainer: {
+    position: 'absolute',
+    bottom: 10,
+    left: 0,  // 100% width
+    right: 0,
+    alignItems: 'center', // position button in center
+  },
+  actionButton: {
+    backgroundColor: textColor,
   },
 }
 
@@ -43,8 +54,9 @@ class Alarm extends Component {
   render() {
     const { schedules } = this.props
     return (
-      <ScrollView showVerticalScrollbar contentContainerStyle={styles.container}>
-        {
+      <View>
+        <ScrollView showVerticalScrollbar contentContainerStyle={styles.container}>
+          {
           schedules.map(
               (schedule) => {
                 const { id, enabled, time, doesRepeat, nextAlarmText, activeDayMap } = schedule
@@ -60,14 +72,18 @@ class Alarm extends Component {
               },
           )
       }
-        <Icon
-          raised
-          name="plus"
-          type="font-awesome"
-          color={primaryColor}
-          onPress={this.onNewPress}
-        />
-      </ScrollView>
+        </ScrollView>
+        <View style={styles.actionButtonContainer}>
+          <Icon
+            containerStyle={styles.actionButton}
+            raised
+            name="plus"
+            type="font-awesome"
+            color={primaryColor}
+            onPress={this.onNewPress}
+          />
+        </View>
+      </View>
     )
   }
 }

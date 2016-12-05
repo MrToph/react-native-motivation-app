@@ -1,14 +1,13 @@
 import React, { Component, PropTypes } from 'react'
 import { View, TouchableNativeFeedback } from 'react-native'
 import { connect } from 'react-redux'
-import { color } from 'react-native-material-design-styles'
 import { createTimeRepeatButtonPressed } from '../store/alarm/actions'
 import { Text } from '../components'
-import { primaryColor, textColorOnPrimary, repeatButtonSize } from '../styling'
+import { primaryColor, dark3, textColor, textColorOnPrimary, repeatButtonSize } from '../styling'
 
 const styles = {
   circularContainer: {
-    backgroundColor: color.paperGrey400.color,
+    backgroundColor: dark3,
     height: repeatButtonSize,
     width: repeatButtonSize,
     borderRadius: repeatButtonSize / 2,
@@ -18,6 +17,8 @@ const styles = {
   },
   active: {
     backgroundColor: primaryColor,
+    borderColor: textColor,
+    borderWidth: 1,
   },
   margin: {
     marginRight: repeatButtonSize / 4,

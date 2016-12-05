@@ -45,8 +45,8 @@ class RepeatPicker extends Component {
       <View const style={styles.horizontalStart}>
         <CheckBox
           title="Repeat"
-          containerStyle={{ borderWidth: 0, backgroundColor: 'transparent', marginHorizontal: 0 }}
-          textStyle={textStyle}
+          containerStyle={{ borderWidth: 0, backgroundColor: 'transparent', marginHorizontal: 0, paddingHorizontal: 0 }}
+          textStyle={[textStyle]}
           center
           checked={this.props.doesRepeat}
           iconLeft

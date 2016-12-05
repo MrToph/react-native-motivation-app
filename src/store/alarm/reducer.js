@@ -58,6 +58,8 @@ const setAlarm = (scheduleObj) => {
       timestamp = date.valueOf()
       AppLauncher.setAlarm(id, timestamp)
     }
+  } else { // clear alarm
+    AppLauncher.clearAlarm(id)
   }
   return {
     id,

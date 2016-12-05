@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react'
 import { TouchableNativeFeedback, TouchableOpacity, View, TimePickerAndroid, Switch } from 'react-native'
-import { Card, CheckBox, Icon } from 'react-native-elements'
+import { Card, Icon } from 'react-native-elements'
 import { typography } from 'react-native-material-design-styles'
 import { connect } from 'react-redux'
 import { createTimeChanged, createTimeDelete, createTimeEnabledPressed } from '../store/alarm/actions'
 import { TimeDisplay, RepeatPicker, Text } from '../components'
-import { primaryColor, dark2, dark4 } from '../styling'
+import { textColor, dark2, dark4 } from '../styling'
 
 const styles = {
   horizontalContainer: {
@@ -102,7 +102,7 @@ class TimeCard extends Component {
               <RepeatPicker timeCardId={id} doesRepeat={doesRepeat} activeDayMap={activeDayMap} />
             }
             <TouchableOpacity style={{ alignSelf: 'flex-end' }} onPress={this.onDeletePress}>
-              <Icon name="delete" size={26} />
+              <Icon name="delete" color={textColor} size={26} />
             </TouchableOpacity>
           </View>
         </TouchableNativeFeedback>

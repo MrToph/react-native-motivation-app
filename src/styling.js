@@ -6,8 +6,9 @@ const primary = 'paperRed' // #f44336
 const primaryColor = color[`${primary}500`].color
 const textColor = color.paperGrey50.color
 const textColorOnPrimary = color.paperGrey50.color
-const dark2 = '#212121'
-const dark4 = '#424242'
+const dark2 = '#212121' // App bar
+const dark3 = '#303030' // background
+const dark4 = '#424242' // Cards/Dialogs
 
 const adBannerHeight = 50
 const repeatButtonSize = 40
@@ -21,6 +22,7 @@ export {
   textColor,
   textColorOnPrimary,
   dark2,
+  dark3,
   dark4,
   adBannerHeight,
   graphColors,

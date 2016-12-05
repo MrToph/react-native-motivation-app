@@ -7,8 +7,9 @@ Features:
 	✔ PlayList and API @done (December 2nd 2016, 18:17)
 	✔ Settings: Component @done (December 4th 2016, 19:10)
 	✔ Settings: Reducer @done (December 4th 2016, 19:10)
-	✔ About: Component @done (December 4th 2016, 21:54)
-	☐ TimePicker Style
+	✔ About: Component @done (December 5th 2016, 14:23)
+	✔ TimePicker Style @done (December 5th 2016, 15:04)
+	☐ Volume should take into account system volume and adjust it if necessary
 	☐ Snooze: Component for Alarm.js. Only visible when snooze on and positioned above other TimeCards
 	☐ Snooze: Reducer: Enabled always on, no doesRepeat. Only action delete. When appLaunched and alarmId=Snooze rem
 	☐ Snooze Time in Settings: Avg 15 min.

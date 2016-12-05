@@ -82,7 +82,7 @@ class Settings extends Component {
           onSubmit={this.onVolumeSubmit}
           inputStyle={[styles.textInput, styles.volumeInput]}
           inputProps={{
-            placeholder: 'Video-ID',
+            placeholder: '',
             maxLength: 6,
             keyboardType: 'numeric',
             defaultValue: typeof volume !== 'undefined' ? volume.toString() : '',
@@ -94,7 +94,7 @@ class Settings extends Component {
           onSubmit={this.onSnoozeSubmit}
           inputStyle={[styles.textInput, styles.snoozeMinutesInput]}
           inputProps={{
-            placeholder: 'minutes',
+            placeholder: '',
             maxLength: 6,
             keyboardType: 'numeric',
             defaultValue: typeof snoozeMinutes !== 'undefined' ? snoozeMinutes.toString() : '',
