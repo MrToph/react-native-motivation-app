@@ -40,7 +40,7 @@ export default class VideoPlayer extends Component {
             + `${autoplay ? `&autoplay=${autoplay}` : ''}`
             + `${customVideoId ? `&videoid=${customVideoId}` : ''}`,
     }
-    console.log(source.uri, customVideoId)
+    // console.log(source.uri, customVideoId)
     return (
       <WebView
         style={styles.webView}

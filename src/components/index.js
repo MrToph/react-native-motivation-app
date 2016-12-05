@@ -1,5 +1,6 @@
 import RepeatButton from './RepeatButton'
 import RepeatPicker from './RepeatPicker'
+import SnoozeCard from './SnoozeCard'
 import TabBar from './TabBar'
 import Text from './Text'
 import TextInput from './TextInput'
@@ -16,6 +17,7 @@ export {
     TextInputRow,
     RepeatButton,
     RepeatPicker,
+    SnoozeCard,
     TimeDisplay,
     VideoPlayer,
 }

@@ -8,3 +8,7 @@ export function getSettingsState(state) {
     snoozeMinutes,
   }
 }
+
+export function getSnoozeMinutes(state) {
+  return state.snoozeMinutes
+}

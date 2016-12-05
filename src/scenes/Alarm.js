@@ -3,8 +3,8 @@ import { View, ScrollView } from 'react-native'
 import { Icon } from 'react-native-elements'
 import { connect } from 'react-redux'
 import { createTimeNew } from '../store/alarm/actions'
-import { getSchedules } from '../store/selectors'
-import { TimeCard } from '../components'
+import { getSchedules, getSnooze } from '../store/selectors'
+import { TimeCard, SnoozeCard } from '../components'
 import { primaryColor, textColor } from '../styling'
 
 const styles = {
@@ -27,8 +27,13 @@ const styles = {
 
 class Alarm extends Component {
   static propTypes = {
+    snooze: PropTypes.shape({
+      nextAlarmText: PropTypes.string,
+      enabled: PropTypes.bool,
+    }),
     schedules: PropTypes.arrayOf(
             PropTypes.shape({
+              id: PropTypes.number,
               enabled: PropTypes.bool,
               time: PropTypes.string,
               doesRepeat: PropTypes.bool,
@@ -52,10 +57,14 @@ class Alarm extends Component {
   }
 
   render() {
-    const { schedules } = this.props
+    const { schedules, snooze } = this.props
     return (
       <View>
         <ScrollView showVerticalScrollbar contentContainerStyle={styles.container}>
+          <SnoozeCard
+            nextAlarmText={snooze.nextAlarmText}
+            enabled={snooze.enabled}
+          />
           {
           schedules.map(
               (schedule) => {
@@ -90,6 +99,7 @@ class Alarm extends Component {
 
 const mapStateToProps = state => ({
   schedules: getSchedules(state),
+  snooze: getSnooze(state),
 })
 
 const mapDispatchToProps = dispatch => ({

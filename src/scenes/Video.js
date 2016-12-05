@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { VideoPlayer } from '../components'
 import { getVideoState } from '../store/selectors'
 import { createVideoPlayerLoadEnd } from '../store/navigation/actions'
+import { createSnoozePressed } from '../store/alarm/actions'
 import { primaryColor } from '../styling'
 
 const styles = {
@@ -31,6 +32,8 @@ class Video extends Component {
   }
 
   onSnooze = () => {
+    // eslint-disable-next-line
+    this.props.dispatchSnoozePressed()
   }
 
   onLoadEnd = () => {
@@ -40,7 +43,6 @@ class Video extends Component {
 
   render() {
     const { reload, autoplay, volume, playCustomVideoId, playRandom, isVideoActive } = this.props
-    console.log(this.props)
     return (
       <View style={styles.container}>
         {
@@ -69,6 +71,7 @@ const mapStateToProps = state => getVideoState(state)
 
 const mapDispatchToProps = dispatch => ({
   dispatchVideoPlayerLoadEnd: () => dispatch(createVideoPlayerLoadEnd()),
+  dispatchSnoozePressed: () => dispatch(createSnoozePressed()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Video)

@@ -2,6 +2,7 @@ import Immutable from 'seamless-immutable'
 import AppLauncher from 'react-native-app-launcher'
 import moment from 'moment'
 import { AsyncStorage } from 'react-native'
+import { getSnoozeMinutes } from '../selectors'
 import { dayKeys } from '../../constants'
 
 /**
@@ -46,7 +47,7 @@ export const computeNextAlarmTimestamp = (hour, minute, doesRepeat, repeatMap) =
 }
 
 /**
- * Sets the alarm for the schdule provided as a parameter with Android's AlarmManager.
+ * Sets the alarm for the schedule provided as a parameter, with Android's AlarmManager.
  * Returns a new alarmObj.
  */
 const setAlarm = (scheduleObj) => {
@@ -58,6 +59,24 @@ const setAlarm = (scheduleObj) => {
       timestamp = date.valueOf()
       AppLauncher.setAlarm(id, timestamp)
     }
+  } else { // clear alarm
+    AppLauncher.clearAlarm(id)
+  }
+  return {
+    id,
+    enabled,
+    timestamp,
+  }
+}
+
+/**
+ * Sets the alarm for the snooze timer provided as a parameter, with Android's AlarmManager.
+ * Returns a new alarmObj.
+ */
+const setSnooze = (snoozeObj, timestamp) => {
+  const { id, enabled } = snoozeObj
+  if (enabled) {
+    AppLauncher.setAlarm(id, timestamp)
   } else { // clear alarm
     AppLauncher.clearAlarm(id)
   }
@@ -88,10 +107,16 @@ const createScheduleObj = (id, enabled, doesRepeat, hour, minute) => ({
 const defaultState = Immutable({
   scheduleIds: [1, 2],
   schedulesById: {
+    snooze: createScheduleObj('snooze', false, false),
     1: createScheduleObj(1),
     2: createScheduleObj(2, false, true, 8, 0),
   },
   alarmsById: {
+    snooze: {
+      id: 1,
+      enabled: false,
+      timestamp: null,
+    },
     1: {
       id: 1,
       enabled: false,
@@ -110,6 +135,7 @@ const saveAndReturnState = (state) => {
   return state
 }
 
+AsyncStorage.removeItem('alarm')
 const reducer = (state = defaultState, action) => {
   switch (action.type) {
     case 'ALARM_STATE_LOADED': {
@@ -149,23 +175,42 @@ const reducer = (state = defaultState, action) => {
       )
       return saveAndReturnState(newState.set('alarmsById', alarmsById))
     }
-    case 'TIME_CHANGED': {
-      const { id, hour, minute } = action.payload
+    case 'SNOOZE_PRESSED': {
+      const snoozeMinutes = getSnoozeMinutes(action.getState())
+      const timestamp = moment()
+      timestamp.add(snoozeMinutes, 'minutes')
+      // create new _enabled_ snooze Object
+      const snoozeObj = createScheduleObj('snooze', true, false)
       let mergedState = state.merge({
         schedulesById: {
-          [id]: {
-            time: {
-              hour,
-              minute,
-            },
+          snooze: snoozeObj,
+        },
+      }, { deep: true })
+
+      // update its alarm
+      mergedState = mergedState.merge({
+        alarmsById: {
+          snooze: setSnooze(mergedState.schedulesById.snooze, timestamp.valueOf()),
+        },
+      }, { deep: true })
+      return saveAndReturnState(mergedState)
+    }
+    case 'SNOOZE_DELETE': {
+      const mergedState = state.merge({
+        schedulesById: {
+          snooze: {
+            enabled: false,
+          },
+        },
+        alarmsById: {
+          snooze: {
+            enabled: false,
           },
         },
       }, { deep: true })
-      mergedState = mergedState.merge({
-        alarmsById: {
-          [id]: setAlarm(mergedState.schedulesById[id]),
-        },
-      }, { deep: true })
+
+      // clear alarm for snooze
+      AppLauncher.clearAlarm('snooze')
       return saveAndReturnState(mergedState)
     }
     case 'TIME_NEW': {
@@ -183,6 +228,25 @@ const reducer = (state = defaultState, action) => {
       mergedState = mergedState.merge({
         alarmsById: {
           [nextId]: setAlarm(mergedState.schedulesById[nextId]),
+        },
+      }, { deep: true })
+      return saveAndReturnState(mergedState)
+    }
+    case 'TIME_CHANGED': {
+      const { id, hour, minute } = action.payload
+      let mergedState = state.merge({
+        schedulesById: {
+          [id]: {
+            time: {
+              hour,
+              minute,
+            },
+          },
+        },
+      }, { deep: true })
+      mergedState = mergedState.merge({
+        alarmsById: {
+          [id]: setAlarm(mergedState.schedulesById[id]),
         },
       }, { deep: true })
       return saveAndReturnState(mergedState)

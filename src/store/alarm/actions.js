@@ -22,6 +22,12 @@ export function createTimeDelete(id) {
   }
 }
 
+export function createSnoozeDelete() {
+  return {
+    type: 'SNOOZE_DELETE',
+  }
+}
+
 export function createTimeEnabledPressed(id) {
   return {
     type: 'ENABLED_PRESSED',
@@ -58,3 +64,10 @@ export function createAlarmStateLoad(stateString) {
     },
   }
 }
+
+export function createSnoozePressed() {
+  return {
+    type: 'SNOOZE_PRESSED',
+  }
+}
+

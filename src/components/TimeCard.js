@@ -45,9 +45,6 @@ class TimeCard extends Component {
   constructor(props) {
     super(props)
     this.showTimePicker = this.showTimePicker.bind(this)
-    this.state = {
-      timePickerVisible: false,
-    }
   }
 
   onBackgroundPress = () => {

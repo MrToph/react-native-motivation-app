@@ -13,7 +13,6 @@ const reducer = (state = defaultState, action) => {
     case 'APP_LAUNCHED': {
       // if app was launched with an alarmId => show the video screen and autoplay video
       const { alarmId } = action.payload
-      console.log(alarmId)
       if (typeof alarmId !== 'undefined') {
         return state.merge({
           activeScene: 'video',
@@ -31,6 +30,11 @@ const reducer = (state = defaultState, action) => {
         video: {
           autoplay: false,  // if clicked manually, don't autoplay
         },
+      }, { deep: true })
+    }
+    case 'SNOOZE_PRESSED': {
+      return state.merge({
+        activeScene: 'alarm',
       }, { deep: true })
     }
     case 'VIDEO_PLAYER_LOAD_END': {
