@@ -12,9 +12,9 @@ Features:
 	✔ Snooze: Component for Alarm.js. Only visible when snooze on and positioned above other TimeCards @done (December 5th 2016, 17:38)
 	✔ Snooze: Reducer: Enabled always on, no doesRepeat. Only action delete. When appLaunched and alarmId=Snooze remove it from View @done (December 5th 2016, 17:38)
 	✔ Snooze Time in Settings: Avg 15 min. @done (December 5th 2016, 15:17)
-	☐ Volume should take into account system volume and adjust it if necessary
 	✔ Rework Alarm.js UI: Better enabled-Slider, AddButton absolute positioning @done (December 5th 2016, 17:38)
-	☐ Rework TabBar UI
+	✔ Rework TabBar UI @done (December 5th 2016, 19:00)
+	☐ Volume should take into account system volume and adjust it if necessary
 
 Dev-Features:
 	✔ ES-Lint in VS Code @done (December 1st 2016, 20:38)

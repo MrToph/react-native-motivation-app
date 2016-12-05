@@ -32,7 +32,7 @@ class TabBar extends React.Component {
 
   renderTab(routeKey, routeObj) {
     const selectedTab = this.props.activeScene
-    const { title, Component, iconName } = routeObj
+    const { title, Component, iconProps } = routeObj
     return (
       <Tab
         key={routeKey}
@@ -41,8 +41,8 @@ class TabBar extends React.Component {
         selectedTitleStyle={[styles.titleSelected]}
         selected={selectedTab === routeKey}
         title={selectedTab === routeKey ? title : null}
-        renderIcon={() => <Icon name={iconName} color={textColor} size={26} />}
-        renderSelectedIcon={() => <Icon name={iconName} color={primaryColor} size={26} />}
+        renderIcon={() => <Icon color={textColor} size={26} {...iconProps} />}
+        renderSelectedIcon={() => <Icon color={primaryColor} size={26} {...iconProps} />}
         onPress={() => this.changeTab(routeKey)}
       >
         <Component style={styles.tabBarStyle} />
