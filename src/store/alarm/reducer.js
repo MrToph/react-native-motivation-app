@@ -135,7 +135,6 @@ const saveAndReturnState = (state) => {
   return state
 }
 
-AsyncStorage.removeItem('alarm')
 const reducer = (state = defaultState, action) => {
   switch (action.type) {
     case 'ALARM_STATE_LOADED': {

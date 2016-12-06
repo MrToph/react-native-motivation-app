@@ -14,7 +14,6 @@ export default class VideoPlayer extends Component {
   static propTypes = {
     autoplay: PropTypes.bool.isRequired,
     reload: PropTypes.bool.isRequired,
-    volume: PropTypes.number.isRequired,
     customVideoId: PropTypes.string.isRequired,    // if defined we should play
     onLoadEnd: PropTypes.func.isRequired,
   }
@@ -33,14 +32,14 @@ export default class VideoPlayer extends Component {
 
   // is automatically called when reload changed to true
   render() {
-    const { autoplay, volume, customVideoId } = this.props
+    const { autoplay, customVideoId } = this.props
     const source = {
     // may not be called index.html, bug?
-      uri: `${apiSource}?nocache=${Date.now()}&volume=${volume}`
+      uri: `${apiSource}?nocache=${Date.now()}&volume=100`
             + `${autoplay ? `&autoplay=${autoplay}` : ''}`
             + `${customVideoId ? `&videoid=${customVideoId}` : ''}`,
     }
-    // console.log(source.uri, customVideoId)
+    console.log(source.uri, customVideoId)
     return (
       <WebView
         style={styles.webView}

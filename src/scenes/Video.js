@@ -26,7 +26,6 @@ class Video extends Component {
     isVideoActive: PropTypes.bool.isRequired,
     autoplay: PropTypes.bool.isRequired,
     reload: PropTypes.bool.isRequired,
-    volume: PropTypes.number.isRequired,
     playRandom: PropTypes.bool.isRequired,
     playCustomVideoId: PropTypes.string.isRequired,
   }
@@ -42,7 +41,7 @@ class Video extends Component {
   }
 
   render() {
-    const { reload, autoplay, volume, playCustomVideoId, playRandom, isVideoActive } = this.props
+    const { reload, autoplay, playCustomVideoId, playRandom, isVideoActive } = this.props
     return (
       <View style={styles.container}>
         {
@@ -51,7 +50,6 @@ class Video extends Component {
             onLoadEnd={this.onLoadEnd}
             reload={reload}
             autoplay={autoplay}
-            volume={volume}
             customVideoId={playRandom ? '' : playCustomVideoId}
           />
         }

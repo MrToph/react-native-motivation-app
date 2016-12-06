@@ -15,6 +15,7 @@ import com.facebook.soloader.SoLoader;
 import java.util.Arrays;
 import java.util.List;
 
+import io.cmichel.motivation.SoundManagerPackage;
 import io.cmichel.appLauncher.LauncherPackage;  // add this for react-native-app-launcher
 
 public class MainApplication extends Application implements ReactApplication {
@@ -31,7 +32,8 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage(),
             new RNDeviceInfo(),
             new VectorIconsPackage(),
-          new LauncherPackage()     // add this for react-native-app-launcher
+            new SoundManagerPackage(),
+            new LauncherPackage()     // add this for react-native-app-launcher
       );
     }
   };

@@ -14,7 +14,11 @@ Features:
 	✔ Snooze Time in Settings: Avg 15 min. @done (December 5th 2016, 15:17)
 	✔ Rework Alarm.js UI: Better enabled-Slider, AddButton absolute positioning @done (December 5th 2016, 17:38)
 	✔ Rework TabBar UI @done (December 5th 2016, 19:00)
-	☐ Volume should take into account system volume and adjust it if necessary
+	✔ Volume should take into account system volume and adjust it if necessary @done (December 6th 2016, 18:50)
+	✔ Move api to a more stable hoster. Github pages? @done (December 6th 2016, 19:12)
 
 Dev-Features:
 	✔ ES-Lint in VS Code @done (December 1st 2016, 20:38)
+
+Manual:
+	☐ Push to GitHub Pages with: 'git subtree push --prefix website origin gh-pages'

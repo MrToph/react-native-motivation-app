@@ -1,5 +1,6 @@
 import Immutable from 'seamless-immutable'
-import { AsyncStorage } from 'react-native'
+import { AsyncStorage, NativeModules } from 'react-native'
+import AppLauncher from 'react-native-app-launcher'
 import { clamp } from '../../utils'
 
 const defaultState = Immutable({
@@ -15,7 +16,6 @@ const saveAndReturnState = (state) => {
   return state
 }
 
-// AsyncStorage.removeItem('settings')
 const reducer = (state = defaultState, action) => {
   switch (action.type) {
     case 'SETTINGS_STATE_LOADED': {
@@ -54,6 +54,10 @@ const reducer = (state = defaultState, action) => {
       return saveAndReturnState(state.merge({
         volume: clamp(action.payload, 0, 100),
       }, { deep: true }))
+    }
+    case 'VIDEO_PLAYER_LOAD_END': {
+      NativeModules.SoundManager.setMusicVolume(state.volume)
+      return state
     }
     default:
       return state

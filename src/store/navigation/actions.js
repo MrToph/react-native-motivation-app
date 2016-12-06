@@ -36,6 +36,7 @@ export function createStateLoadError(error) {
 
 // THUNKS
 function loadState(type) {
+  // AsyncStorage.removeItem(type)
   return AsyncStorage.getItem(type)  // full app state for alarm, settings
 }
 

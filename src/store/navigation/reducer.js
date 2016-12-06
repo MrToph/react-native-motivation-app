@@ -1,3 +1,5 @@
+import { NativeModules } from 'react-native'
+import AppLauncher from 'react-native-app-launcher'
 import Immutable from 'seamless-immutable'
 
 const defaultState = Immutable({
@@ -11,6 +13,7 @@ const defaultState = Immutable({
 const reducer = (state = defaultState, action) => {
   switch (action.type) {
     case 'APP_LAUNCHED': {
+      NativeModules.SoundManager.setControlStreamMusic()
       // if app was launched with an alarmId => show the video screen and autoplay video
       const { alarmId } = action.payload
       if (typeof alarmId !== 'undefined') {
