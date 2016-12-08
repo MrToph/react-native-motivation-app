@@ -1,4 +1,4 @@
-import { AsyncStorage } from 'react-native'
+import { AsyncStorage, NetInfo } from 'react-native'
 import { createAlarmStateLoad } from '../alarm/actions'
 import { createSettingsStateLoad } from '../settings/actions'
 
@@ -15,11 +15,12 @@ export function createVideoPlayerLoadEnd() {
   }
 }
 
-export function createLaunchAction(alarmId) {
+export function createLaunchAction(alarmId, connectionInfo) {
   return {
     type: 'APP_LAUNCHED',
     payload: {
       alarmId,
+      connectionInfo,
     },
   }
 }
@@ -53,7 +54,10 @@ export function loadStateAndSetAlarms(alarmId) {
       stateString => dispatch(createSettingsStateLoad(stateString)),
     )
     .then(
-      () => dispatch(createLaunchAction(alarmId)),
+        NetInfo.fetch,
+    )
+    .then(
+      connectionInfo => dispatch(createLaunchAction(alarmId, connectionInfo)),
     )
     .done()
   }

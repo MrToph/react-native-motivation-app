@@ -12,3 +12,7 @@ export function getSettingsState(state) {
 export function getSnoozeMinutes(state) {
   return state.snoozeMinutes
 }
+
+export function getWifiOnly(state) {
+  return state.wifiOnly
+}
