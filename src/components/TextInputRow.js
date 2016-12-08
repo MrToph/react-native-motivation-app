@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import { typography } from 'react-native-material-design-styles'
 import { textColor } from '../styling'
 import TextInput from '../components/TextInput'
@@ -27,8 +27,26 @@ export default class TextInputRow extends Component {
     textBefore: PropTypes.string.isRequired,
     textAfter: PropTypes.string,
     onSubmit: PropTypes.func.isRequired,
-    inputStyle: PropTypes.oneOf(PropTypes.object, PropTypes.array),
-    inputProps: PropTypes.object,  // additional props supplied to TextInput
+    inputStyle: PropTypes.oneOfType(PropTypes.object, PropTypes.array),
+    // eslint-disable-next-line
+    inputProps: PropTypes.object, // same propTypes as TextInput from 'react-native'
+  }
+
+  onRef = (ref) => {
+    if (ref) this.setState({ textInputRef: ref })
+  }
+
+  // gets called when focusing other textinput even when no submit button pressed
+  // but also when submit button pressed
+  onEndEditing = (val) => {
+    this.props.onSubmit(val)
+  }
+
+  // when clicked on submit button keyboard
+  onSubmitEditing = () => {
+    if (this.state.textInputRef) {
+      this.state.textInputRef.blur()
+    }
   }
 
   render() {
@@ -58,22 +76,5 @@ export default class TextInputRow extends Component {
         </Text>
       </View>
     )
-  }
-
-  onRef = (ref) => {
-    if (ref) this.setState({ textInputRef: ref })
-  }
-
-  // gets called when focusing other textinput even when no submit button pressed
-  // but also when submit button pressed
-  onEndEditing = (val) => {
-    this.props.onSubmit(val)
-  }
-
-  // when clicked on submit button keyboard
-  onSubmitEditing = () => {
-    if (this.state.textInputRef) {
-      this.state.textInputRef.blur()
-    }
   }
 }

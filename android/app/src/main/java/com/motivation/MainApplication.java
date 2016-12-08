@@ -17,6 +17,7 @@ import java.util.List;
 
 import io.cmichel.motivation.SoundManagerPackage;
 import io.cmichel.appLauncher.LauncherPackage;  // add this for react-native-app-launcher
+import com.sbugert.rnadmob.RNAdMobPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -33,7 +34,8 @@ public class MainApplication extends Application implements ReactApplication {
             new RNDeviceInfo(),
             new VectorIconsPackage(),
             new SoundManagerPackage(),
-            new LauncherPackage()     // add this for react-native-app-launcher
+            new LauncherPackage(),
+            new RNAdMobPackage()
       );
     }
   };

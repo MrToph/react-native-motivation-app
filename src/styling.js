@@ -18,13 +18,13 @@ const graphColors = ['#3F51B5', '#a6cee3', '#33a02c', '#b2df8a', '#e31a1c', '#fb
 
 export default primary
 export {
-  primaryColor,
-  textColor,
-  textColorOnPrimary,
+  adBannerHeight,
   dark2,
   dark3,
   dark4,
-  adBannerHeight,
   graphColors,
+  primaryColor,
   repeatButtonSize,
+  textColor,
+  textColorOnPrimary,
 }

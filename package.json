@@ -12,6 +12,7 @@
     "moment": "^2.17.0",
     "react": "15.4.1",
     "react-native": "0.38.0",
+    "react-native-admob": "^1.1.5",
     "react-native-app-launcher": "git+https://github.com/MrToph/react-native-app-launcher.git",
     "react-native-device-info": "^0.9.7",
     "react-native-elements": "^0.7.0",

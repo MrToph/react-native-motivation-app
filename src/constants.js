@@ -8,7 +8,7 @@ const dayKeys = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 const packageName = 'io.cmichel.motivation'
 const appName = 'Motivational Clock'
 const mail = 'apps@cmichel.io'
-const adUnitID = 'ca-app-pub-5890315358641197/5110383864'
+const adUnitID = 'ca-app-pub-5890315358641197/5110380000'
 
 export {
     apiSource,

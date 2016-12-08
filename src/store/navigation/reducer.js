@@ -1,5 +1,6 @@
 import { NativeModules } from 'react-native'
 import AppLauncher from 'react-native-app-launcher'
+import { AdMobInterstitial } from 'react-native-admob'
 import Immutable from 'seamless-immutable'
 import { getWifiOnly } from '../selectors'
 
@@ -45,6 +46,8 @@ const reducer = (state = defaultState, action) => {
       }, { deep: true })
     }
     case 'SNOOZE_PRESSED': {
+      AdMobInterstitial.setTestDeviceID('EMULATOR')
+      AdMobInterstitial.requestAd(AdMobInterstitial.showAd)
       return state.merge({
         activeScene: 'alarm',
       }, { deep: true })
