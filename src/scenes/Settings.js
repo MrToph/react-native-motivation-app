@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { View } from 'react-native'
+import { View, Slider } from 'react-native'
 import { CheckBox } from 'react-native-elements'
 import { typography } from 'react-native-material-design-styles'
 import { connect } from 'react-redux'
@@ -9,7 +9,7 @@ import { createWiFiOnlyPressed, createCustomVideoPressed, createSnoozeTimeChange
   createCustomVideoIdChanged, createVolumeChanged } from '../store/settings/actions'
 import { Text, TextInputRow } from '../components'
 import { primaryColor } from '../styling'
-import { isInt } from '../utils'
+import { isInt, padLeft } from '../utils'
 
 const styles = {
   container: { alignItems: 'flex-start' },
@@ -17,6 +17,17 @@ const styles = {
   volumeInput: { width: 60 },
   customVideoInput: { width: 150 },
   snoozeMinutesInput: { width: 60 },
+  slider: {
+    backgroundColor: 'transparent',
+    flex: 1,
+  },
+  horizontalContainer: {
+    paddingLeft: 16,
+    paddingRight: 16,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
 }
 
 class Settings extends Component {
@@ -28,11 +39,32 @@ class Settings extends Component {
     snoozeMinutes: PropTypes.number.isRequired,
   }
 
-  onVolumeSubmit = (event) => {
-    const { text } = event.nativeEvent
-    if (isInt(text)) {
+  constructor(props) {
+    super(props)
+    this.state = {
+      volume: props.volume,
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      volume: nextProps.volume,
+    })
+  }
+
+  onVolumeChange = (volume) => {
+    console.log(volume)
+    this.setState({
+      volume,
+    })
+  }
+
+  onVolumeSubmit = () => {
+    console.log('SUBMIT', this.state.volume)
+    const { volume } = this.state
+    if (isInt(volume)) {
       // eslint-disable-next-line
-      this.props.dispatchVolumeChanged(parseInt(text))
+      this.props.dispatchVolumeChanged(parseInt(volume))
     }
   }
 
@@ -76,18 +108,20 @@ class Settings extends Component {
           checkedColor={primaryColor}
           onPress={this.onWiFiOnlyPress}
         />
-        <TextInputRow
-          textBefore="Video Volume:"
-          textAfter="%"
-          onSubmit={this.onVolumeSubmit}
-          inputStyle={[styles.textInput, styles.volumeInput]}
-          inputProps={{
-            placeholder: '',
-            maxLength: 6,
-            keyboardType: 'numeric',
-            defaultValue: typeof volume !== 'undefined' ? volume.toString() : '',
-          }}
-        />
+        <View style={styles.horizontalContainer}>
+          <Text>
+            {`Video Volume: ${padLeft('\u2000', 2, this.state.volume)}%`}
+          </Text>
+          <Slider
+            minimumValue={0}
+            maximumValue={100}
+            step={1}
+            value={this.props.volume}
+            onSlidingComplete={this.onVolumeSubmit}
+            onValueChange={value => this.onVolumeChange(value)}
+            style={styles.slider}
+          />
+        </View>
         <TextInputRow
           textBefore="Snooze Time:"
           textAfter="minutes"

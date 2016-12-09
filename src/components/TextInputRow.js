@@ -27,7 +27,7 @@ export default class TextInputRow extends Component {
     textBefore: PropTypes.string.isRequired,
     textAfter: PropTypes.string,
     onSubmit: PropTypes.func.isRequired,
-    inputStyle: PropTypes.oneOfType(PropTypes.object, PropTypes.array),
+    inputStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
     // eslint-disable-next-line
     inputProps: PropTypes.object, // same propTypes as TextInput from 'react-native'
   }
@@ -56,7 +56,7 @@ export default class TextInputRow extends Component {
     else mergedStyle.push(inputStyle)
     return (
       <View style={styles.horizontalContainer}>
-        <Text style={[styles.text, typography.paperFontSubhead]}>
+        <Text style={[styles.text]}>
           {textBefore}
         </Text>
         <TextInput

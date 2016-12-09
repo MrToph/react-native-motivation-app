@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { View, TouchableNativeFeedback } from 'react-native'
+import { View, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import { createTimeRepeatButtonPressed } from '../store/alarm/actions'
 import { Text } from '../components'
@@ -54,7 +54,7 @@ class RepeatButton extends Component {
     const marginStyle = this.props.isLast ? null : styles.margin
     const activeStyle = this.props.active ? styles.active : null
     return (
-      <TouchableNativeFeedback
+      <TouchableOpacity
         hitSlop={styles.hitSlop}
         onPress={this.onPress}
         delayPressIn={0}
@@ -65,7 +65,7 @@ class RepeatButton extends Component {
             {this.props.text}
           </Text>
         </View>
-      </TouchableNativeFeedback>
+      </TouchableOpacity>
     )
   }
 

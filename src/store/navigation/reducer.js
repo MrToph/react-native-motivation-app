@@ -3,6 +3,32 @@ import AppLauncher from 'react-native-app-launcher'
 import { AdMobInterstitial } from 'react-native-admob'
 import Immutable from 'seamless-immutable'
 import { getWifiOnly } from '../selectors'
+import { testDeviceId } from '../../constants'
+
+// AdMobInterstitial.setTestDeviceID('EMULATOR')
+AdMobInterstitial.setTestDeviceID(testDeviceId)
+
+function requestInterstitial() {
+  AdMobInterstitial.requestAd(AdMobInterstitial.showAd)
+  AdMobInterstitial.addEventListener('interstitialDidLoad',
+      () => console.log('interstitialDidLoad event'))
+  AdMobInterstitial.addEventListener('interstitialDidClose',
+      () => console.log('interstitialDidClose event'))
+  AdMobInterstitial.addEventListener('interstitialDidFailToLoad',
+      () => console.log('interstitialDidFailToLoad event'))
+  AdMobInterstitial.addEventListener('interstitialDidOpen',
+      () => console.log('interstitialDidOpen event'))
+  AdMobInterstitial.addEventListener('interstitialWillLeaveApplication',
+      () => console.log('interstitalWillLeaveApplication event'))
+
+  AdMobInterstitial.requestAd((error) => {
+    if (error) {
+      console.log(error)
+      return
+    }
+    AdMobInterstitial.showAd(err => err && console.log(err))
+  })
+}
 
 const defaultState = Immutable({
   activeScene: 'alarm',
@@ -46,8 +72,7 @@ const reducer = (state = defaultState, action) => {
       }, { deep: true })
     }
     case 'SNOOZE_PRESSED': {
-      AdMobInterstitial.setTestDeviceID('EMULATOR')
-      AdMobInterstitial.requestAd(AdMobInterstitial.showAd)
+      requestInterstitial()
       return state.merge({
         activeScene: 'alarm',
       }, { deep: true })

@@ -42,7 +42,6 @@ function loadState(type) {
 }
 
 export function loadStateAndSetAlarms(alarmId) {
-  console.log(alarmId)
   return function (dispatch) {
     return loadState('alarm')
     .then(

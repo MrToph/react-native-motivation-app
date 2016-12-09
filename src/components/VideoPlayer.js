@@ -13,24 +13,13 @@ const styles = {
 export default class VideoPlayer extends Component {
   static propTypes = {
     autoplay: PropTypes.bool.isRequired,
-    reload: PropTypes.bool.isRequired,
+    // render is automatically called when reload changed to true
+    reload: PropTypes.bool.isRequired,  // eslint-disable-line
     customVideoId: PropTypes.string.isRequired,    // if defined we should play
     onLoadEnd: PropTypes.func.isRequired,
   }
 
-  // onMessage = (event) => {
-  //   const dataString = event.nativeEvent.data
-  //   console.log(dataString)
-  // }
-
-  // // my api always returns its whole state
-  // postMessage = () => {
-  //   if (this.webview) {
-  //     this.webview.postMessage('"Hello" from React Native!')
-  //   }
-  // }
-
-  // is automatically called when reload changed to true
+  
   render() {
     const { autoplay, customVideoId } = this.props
     const source = {
@@ -39,7 +28,7 @@ export default class VideoPlayer extends Component {
             + `${autoplay ? `&autoplay=${autoplay}` : ''}`
             + `${customVideoId ? `&videoid=${customVideoId}` : ''}`,
     }
-    console.log(source.uri, customVideoId)
+    // console.log(source.uri, customVideoId)
     return (
       <WebView
         style={styles.webView}

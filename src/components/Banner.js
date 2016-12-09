@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { View } from 'react-native'
 import { AdMobBanner, AdMobInterstitial } from 'react-native-admob'
-import { adUnitID } from '../constants'
+import { adUnitID, adSnoozeInterstitial } from '../constants'
 import { adBannerHeight } from '../styling'
 
 // may only be set once, otherwise error
-AdMobInterstitial.setAdUnitID(adUnitID)
+AdMobInterstitial.setAdUnitID(adSnoozeInterstitial)
 
 const styles = {
   banner: {

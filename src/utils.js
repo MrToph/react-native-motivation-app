@@ -5,7 +5,9 @@ export function formatTime(timeObj) {
   return `${hour}:${minute}`
 }
 
-export function padLeft(char, totalLength, textToPad) {
+export function padLeft(char, totalLength, valueToPad) {
+  const textToPad = valueToPad.toString()
+  console.log(textToPad.length)
   return char.repeat(Math.max(totalLength - textToPad.length, 0)) + textToPad
 }
 

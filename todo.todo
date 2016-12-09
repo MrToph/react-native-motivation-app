@@ -2,6 +2,7 @@ Bugs:
 	✔ AlarmManager still fires at inexact times even with setExact. Switch to setAlarmClock or setExactAndAllowWhileIdle @done (December 4th 2016, 19:59)
 	https://developer.android.com/reference/android/app/AlarmManager.html#setAlarmClock(android.app.AlarmManager.AlarmClockInfo, android.app.PendingIntent)
 	https://plus.google.com/+AndroidDevelopers/posts/GdNrQciPwqo
+	☐ "Application attempted to call on a destroyed WebView"
 
 Features:
 	✔ PlayList and API @done (December 2nd 2016, 18:17)
