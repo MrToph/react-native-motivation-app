@@ -68,7 +68,7 @@ function getVideoId() {
   if (params.videoid) return params.videoid
 
   const dayOfYear = getDayOfYear()
-  const playlistLength = Object.keys(playlist).length
+  const playlistLength = playlist.length
   return playlist[dayOfYear % playlistLength]
 }
 const videoId = getVideoId() || 'SuPLxQD4akQ' // default video if everything else fails
@@ -77,7 +77,7 @@ const videoId = getVideoId() || 'SuPLxQD4akQ' // default video if everything els
 function onPlayerReady(event) {
   event.target.setPlaybackQuality('small')
   // volume between 0 and 100
-  event.target.setVolume(params.volume ? parseInt(params.volume, 10) : 0)
+  event.target.setVolume(params.volume ? parseInt(params.volume, 10) : 100)
   if (params.autoplay) event.target.playVideo()
 }
 
