@@ -19,6 +19,18 @@ export default class VideoPlayer extends Component {
     onLoadEnd: PropTypes.func.isRequired,
   }
 
+  shouldComponentUpdate(nextProps) {
+    // a re-render makes the webview load the whole video again, making it start all over.
+    const { autoplay, reload, customVideoId, onLoadEnd } = this.props
+    if (nextProps.autoplay === autoplay
+        && nextProps.reload === reload
+        && nextProps.customVideoId === customVideoId
+        && nextProps.onLoadEnd === onLoadEnd) {
+      return false
+    }
+    return true
+  }
+
   render() {
     const { autoplay, customVideoId } = this.props
     const source = {
@@ -27,7 +39,7 @@ export default class VideoPlayer extends Component {
             + `${autoplay ? `&autoplay=${autoplay}` : ''}`
             + `${customVideoId ? `&videoid=${customVideoId}` : ''}`,
     }
-    console.log(source.uri, customVideoId)
+    // console.log(source.uri, customVideoId)
     return (
       <WebView
         style={styles.webView}
@@ -40,13 +52,5 @@ export default class VideoPlayer extends Component {
         onLoadEnd={this.props.onLoadEnd}
       />
     )
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    const { autoplay, reload, customVideoId } = this.props
-    if (nextProps.autoplay === autoplay && nextProps.reload === reload && nextProps.customVideoId === customVideoId) {
-      return false
-    }
-    return true
   }
 }

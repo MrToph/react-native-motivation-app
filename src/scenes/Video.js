@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react'
 import { View, Button } from 'react-native'
-// import {  } from 'react-native-elements'
 import { connect } from 'react-redux'
 import { VideoPlayer } from '../components'
 import { getVideoState } from '../store/selectors'
@@ -19,7 +18,6 @@ const styles = {
     // padding: 0,
   },
 }
-
 
 class Video extends Component {
   static propTypes = {
@@ -64,6 +62,7 @@ class Video extends Component {
     )
   }
 }
+
 
 const mapStateToProps = state => getVideoState(state)
 

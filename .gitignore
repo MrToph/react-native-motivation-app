@@ -44,3 +44,5 @@ android/app/libs
 *.bat
 src/website/playlist.json
 src/website/playlist-creator.js
+AppStore
+Images

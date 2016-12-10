@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
+// Tabs = TabNavigator
+// Tab = TabNavigator.Item
 import { Tabs, Tab, Icon } from 'react-native-elements'
 import routes, { routeKeys } from '../routes'
 import { createTabPress } from '../store/navigation/actions'
@@ -7,7 +9,7 @@ import { createTabPress } from '../store/navigation/actions'
 import { textColor, primaryColor, dark2 } from '../styling'
 
 const styles = {
-  tabBarStyle: {
+  componentBackground: {
     backgroundColor: 'black',
   },
   tabSelected: {
@@ -18,11 +20,18 @@ const styles = {
   titleSelected: {
     color: primaryColor,
   },
+  tabBarHide: {
+    height: 0,
+  },
+  scenesHide: {
+    paddingBottom: 0,
+  },
 }
 
 class TabBar extends React.Component {
   static propTypes = {
     activeScene: PropTypes.string.isRequired,
+    hideTabBar: PropTypes.bool,  // eslint-disable-line
   }
 
   changeTab(selectedTab) {
@@ -45,14 +54,18 @@ class TabBar extends React.Component {
         renderSelectedIcon={() => <Icon color={primaryColor} size={26} {...iconProps} />}
         onPress={() => this.changeTab(routeKey)}
       >
-        <Component style={styles.tabBarStyle} />
+        <Component style={styles.componentBackground} />
       </Tab>
     )
   }
 
   render() {
+    const { hideTabBar } = this.props
     return (
-      <Tabs>
+      <Tabs
+        tabBarStyle={hideTabBar && styles.tabBarHide}
+        sceneStyle={hideTabBar && styles.scenesHide}
+      >
         {
           routeKeys.map(routeKey => this.renderTab(routeKey, routes[routeKey]))
         }

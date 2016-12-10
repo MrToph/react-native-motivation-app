@@ -18,6 +18,7 @@ import java.util.List;
 import io.cmichel.motivation.SoundManagerPackage;
 import io.cmichel.appLauncher.LauncherPackage;  // add this for react-native-app-launcher
 import com.sbugert.rnadmob.RNAdMobPackage;
+import com.github.yamill.orientation.OrientationPackage;  // react-native-orientation
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -31,11 +32,12 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new RNDeviceInfo(),
-            new VectorIconsPackage(),
-            new SoundManagerPackage(),
-            new LauncherPackage(),
-            new RNAdMobPackage()
+          new RNDeviceInfo(),
+          new VectorIconsPackage(),
+          new SoundManagerPackage(),
+          new LauncherPackage(),
+          new RNAdMobPackage(),
+          new OrientationPackage()
       );
     }
   };

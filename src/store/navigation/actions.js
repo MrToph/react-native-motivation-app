@@ -25,6 +25,15 @@ export function createLaunchAction(alarmId, connectionInfo) {
   }
 }
 
+export function createOrientationChanged(orientation) {
+  return {
+    type: 'ORIENTATION_CHANGED',
+    payload: {
+      orientation,
+    },
+  }
+}
+
 // not used right now
 export function createStateLoadError(error) {
   return {
@@ -34,6 +43,7 @@ export function createStateLoadError(error) {
     },
   }
 }
+
 
 // THUNKS
 function loadState(type) {

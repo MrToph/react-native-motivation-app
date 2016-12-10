@@ -1,5 +1,6 @@
 import { NativeModules } from 'react-native'
 import AppLauncher from 'react-native-app-launcher'
+import Orientation from 'react-native-orientation'
 import { AdMobInterstitial } from 'react-native-admob'
 import Immutable from 'seamless-immutable'
 import { getWifiOnly } from '../selectors'
@@ -36,10 +37,26 @@ const defaultState = Immutable({
     reload: false,  // when rendering Video component, should it reload or keep its old state
     autoplay: false,  // when rendering Video component, should it auto play?
   },
+  orientation: 'PORTRAIT',  // or LANDSCAPE
 })
+
+Orientation.lockToPortrait()
+const lockOrientationForScene = (newScene) => {
+  console.log(newScene)
+  if (newScene === 'video') {
+    Orientation.unlockAllOrientations()
+  } else {
+    Orientation.lockToPortrait()
+  }
+}
 
 const reducer = (state = defaultState, action) => {
   switch (action.type) {
+    case 'ORIENTATION_CHANGED': {
+      return state.merge({
+        orientation: action.payload.orientation,
+      }, { deep: true })
+    }
     case 'APP_LAUNCHED': {
       NativeModules.SoundManager.setControlStreamMusic()
       // if app was launched with an alarmId => show the video screen and autoplay video
@@ -49,6 +66,7 @@ const reducer = (state = defaultState, action) => {
         // if settings say play even if not on wifi
         // or we are connected to Wifi => play video
         if (!wifiOnly || connectionInfo === 'WIFI') {
+          lockOrientationForScene('video')
           return state.merge({
             activeScene: 'video',
             video: {
@@ -64,6 +82,7 @@ const reducer = (state = defaultState, action) => {
       return state
     }
     case 'TAB_PRESSED': {
+      lockOrientationForScene(action.payload)
       return state.merge({
         activeScene: action.payload,
         video: {
@@ -72,6 +91,7 @@ const reducer = (state = defaultState, action) => {
       }, { deep: true })
     }
     case 'SNOOZE_PRESSED': {
+      lockOrientationForScene('alarm')
       requestInterstitial()
       return state.merge({
         activeScene: 'alarm',
