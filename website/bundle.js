@@ -141,7 +141,9 @@
 	rel:0,
 	controls:1,
 	showinfo:0,
-	loop:1}});
+	loop:1,
+
+	playlist:videoId}});
 
 
 	};

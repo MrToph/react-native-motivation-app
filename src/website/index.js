@@ -96,6 +96,8 @@ window.onYouTubeIframeAPIReady = function onYouTubeIframeAPIReady() {
       controls: 1,  // no controls
       showinfo: 0,  // no video title, uploader etc.
       loop: 1,  // loop the video
+      /* Fixes loop bug in AS3-Player https://developers.google.com/youtube/player_parameters?#loop */
+      playlist: videoId,
     },
   })
 }
