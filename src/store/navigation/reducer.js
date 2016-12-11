@@ -10,21 +10,20 @@ import { testDeviceId } from '../../constants'
 AdMobInterstitial.setTestDeviceID(testDeviceId)
 
 function requestInterstitial() {
-  AdMobInterstitial.requestAd(AdMobInterstitial.showAd)
-  AdMobInterstitial.addEventListener('interstitialDidLoad',
-      () => console.log('interstitialDidLoad event'))
-  AdMobInterstitial.addEventListener('interstitialDidClose',
-      () => console.log('interstitialDidClose event'))
-  AdMobInterstitial.addEventListener('interstitialDidFailToLoad',
-      () => console.log('interstitialDidFailToLoad event'))
-  AdMobInterstitial.addEventListener('interstitialDidOpen',
-      () => console.log('interstitialDidOpen event'))
-  AdMobInterstitial.addEventListener('interstitialWillLeaveApplication',
-      () => console.log('interstitalWillLeaveApplication event'))
+  // AdMobInterstitial.addEventListener('interstitialDidLoad',
+  //     () => console.log('interstitialDidLoad event'))
+  // AdMobInterstitial.addEventListener('interstitialDidClose',
+  //     () => console.log('interstitialDidClose event'))
+  // AdMobInterstitial.addEventListener('interstitialDidFailToLoad',
+  //     () => console.log('interstitialDidFailToLoad event'))
+  // AdMobInterstitial.addEventListener('interstitialDidOpen',
+  //     () => console.log('interstitialDidOpen event'))
+  // AdMobInterstitial.addEventListener('interstitialWillLeaveApplication',
+  //     () => console.log('interstitalWillLeaveApplication event'))
 
   AdMobInterstitial.requestAd((error) => {
     if (error) {
-      console.log(error)
+      console.log('AdMobInterstitial.requestAd: ', error)
       return
     }
     AdMobInterstitial.showAd(err => err && console.log(err))
@@ -103,6 +102,9 @@ const reducer = (state = defaultState, action) => {
           reload: false,
         },
       }, { deep: true })
+    }
+    case 'VIDEO_PLAYER_ERROR': {
+
     }
     default:
       return state

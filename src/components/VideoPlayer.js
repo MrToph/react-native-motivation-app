@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react'
-import { WebView } from 'react-native'
+import { WebView, View } from 'react-native'
+import { typography } from 'react-native-material-design-styles'
+import Text from './Text'
 import { dark3 } from '../styling'
 import { apiSource } from '../constants'
 
@@ -7,6 +9,11 @@ const styles = {
   webView: {
     flex: 1,
     backgroundColor: dark3,
+  },
+  errorView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 }
 
@@ -17,6 +24,7 @@ export default class VideoPlayer extends Component {
     reload: PropTypes.bool.isRequired,  // eslint-disable-line
     customVideoId: PropTypes.string.isRequired,    // if defined we should play
     onLoadEnd: PropTypes.func.isRequired,
+    onError: PropTypes.func.isRequired,
   }
 
   shouldComponentUpdate(nextProps) {
@@ -29,6 +37,18 @@ export default class VideoPlayer extends Component {
       return false
     }
     return true
+  }
+
+  renderError(error) {
+    console.log(error)
+    return (
+      <View style={styles.errorView}>
+        <Text style={[{ textAlign: 'center' }, typography.paperFontDisplay1]}>
+          {`There was an error playing the video.
+          \nMake sure you have a working internet connection.`}
+        </Text>
+      </View>
+    )
   }
 
   render() {
@@ -50,6 +70,8 @@ export default class VideoPlayer extends Component {
         allowUniversalAccessFromFileURLs
         source={source}
         onLoadEnd={this.props.onLoadEnd}
+        onError={event => this.props.onError(event.nativeEvent)}
+        renderError={this.renderError}
       />
     )
   }

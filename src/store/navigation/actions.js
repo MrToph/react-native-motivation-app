@@ -15,6 +15,15 @@ export function createVideoPlayerLoadEnd() {
   }
 }
 
+export function createVideoPlayerError(error) {
+  return {
+    type: 'VIDEO_PLAYER_ERROR',
+    payload: {
+      error,
+    },
+  }
+}
+
 export function createLaunchAction(alarmId, connectionInfo) {
   return {
     type: 'APP_LAUNCHED',

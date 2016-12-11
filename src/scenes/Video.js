@@ -3,7 +3,7 @@ import { View, Button } from 'react-native'
 import { connect } from 'react-redux'
 import { VideoPlayer } from '../components'
 import { getVideoState } from '../store/selectors'
-import { createVideoPlayerLoadEnd } from '../store/navigation/actions'
+import { createVideoPlayerLoadEnd, createVideoPlayerError } from '../store/navigation/actions'
 import { createSnoozePressed } from '../store/alarm/actions'
 import { primaryColor } from '../styling'
 
@@ -33,6 +33,12 @@ class Video extends Component {
     this.props.dispatchSnoozePressed()
   }
 
+  onError = (error) => {
+    console.log(error)
+    // eslint-disable-next-line
+    this.props.dispatchVideoPlayerError(error)
+  }
+
   onLoadEnd = () => {
     // eslint-disable-next-line
     this.props.dispatchVideoPlayerLoadEnd()
@@ -46,6 +52,7 @@ class Video extends Component {
           isVideoActive &&
           <VideoPlayer
             onLoadEnd={this.onLoadEnd}
+            onError={this.onError}
             reload={reload}
             autoplay={autoplay}
             customVideoId={playRandom ? '' : playCustomVideoId}
@@ -69,6 +76,7 @@ const mapStateToProps = state => getVideoState(state)
 const mapDispatchToProps = dispatch => ({
   dispatchVideoPlayerLoadEnd: () => dispatch(createVideoPlayerLoadEnd()),
   dispatchSnoozePressed: () => dispatch(createSnoozePressed()),
+  dispatchVideoPlayerError: error => dispatch(createVideoPlayerError(error)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Video)

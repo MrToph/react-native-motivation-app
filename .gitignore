@@ -41,6 +41,7 @@ android/app/libs
 *.keystore
 
 # Custom
+*.log
 *.bat
 src/website/playlist.json
 src/website/playlist-creator.js
