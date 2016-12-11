@@ -19,7 +19,8 @@ Features:
 	✔ Move api to a more stable hoster. Github pages? @done (December 6th 2016, 19:12)
 	✔ Play RingTone if not connected to Wi-Fi @done (December 8th 2016, 16:19)
 	✔ Make VideoPlayer play back in Landscape mode. Remove Ads + TabBar then. @done (December 10th 2016, 21:50)
-	☐ Play RingTone if WebView failed to load?
+	✔ Play RingTone if WebView failed to load? @done (December 11th 2016, 21:20)
+	☐ Show Ringtone as a modal with dispose and snooze.
 
 Dev-Features:
 	✔ ES-Lint in VS Code @done (December 1st 2016, 20:38)

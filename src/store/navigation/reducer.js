@@ -6,30 +6,6 @@ import Immutable from 'seamless-immutable'
 import { getWifiOnly } from '../selectors'
 import { testDeviceId } from '../../constants'
 
-// AdMobInterstitial.setTestDeviceID('EMULATOR')
-AdMobInterstitial.setTestDeviceID(testDeviceId)
-
-function requestInterstitial() {
-  // AdMobInterstitial.addEventListener('interstitialDidLoad',
-  //     () => console.log('interstitialDidLoad event'))
-  // AdMobInterstitial.addEventListener('interstitialDidClose',
-  //     () => console.log('interstitialDidClose event'))
-  // AdMobInterstitial.addEventListener('interstitialDidFailToLoad',
-  //     () => console.log('interstitialDidFailToLoad event'))
-  // AdMobInterstitial.addEventListener('interstitialDidOpen',
-  //     () => console.log('interstitialDidOpen event'))
-  // AdMobInterstitial.addEventListener('interstitialWillLeaveApplication',
-  //     () => console.log('interstitalWillLeaveApplication event'))
-
-  AdMobInterstitial.requestAd((error) => {
-    if (error) {
-      console.log('AdMobInterstitial.requestAd: ', error)
-      return
-    }
-    AdMobInterstitial.showAd(err => err && console.log(err))
-  })
-}
-
 const defaultState = Immutable({
   activeScene: 'alarm',
   video: {
@@ -39,14 +15,30 @@ const defaultState = Immutable({
   orientation: 'PORTRAIT',  // or LANDSCAPE
 })
 
+// AdMobInterstitial.setTestDeviceID('EMULATOR')
+AdMobInterstitial.setTestDeviceID(testDeviceId)
+const requestInterstitial = () => {
+  AdMobInterstitial.requestAd((error) => {
+    if (error) {
+      console.log('AdMobInterstitial.requestAd: ', error)
+      return
+    }
+    AdMobInterstitial.showAd(err => err && console.log(err))
+  })
+}
+
 Orientation.lockToPortrait()
 const lockOrientationForScene = (newScene) => {
-  console.log(newScene)
   if (newScene === 'video') {
     Orientation.unlockAllOrientations()
   } else {
     Orientation.lockToPortrait()
   }
+}
+
+const playAlarmSound = () => {
+  NativeModules.SoundManager.playAlarmSound()
+  setTimeout(() => NativeModules.SoundManager.stopAlarmSound(), 5000)
 }
 
 const reducer = (state = defaultState, action) => {
@@ -75,8 +67,7 @@ const reducer = (state = defaultState, action) => {
           }, { deep: true })
         }
         // otherwise play Sound
-        NativeModules.SoundManager.playAlarmSound()
-        setTimeout(() => NativeModules.SoundManager.stopAlarmSound(), 30000)
+        playAlarmSound()
       }
       return state
     }
@@ -104,7 +95,16 @@ const reducer = (state = defaultState, action) => {
       }, { deep: true })
     }
     case 'VIDEO_PLAYER_ERROR': {
-
+      // if reload is true, it means video playing was triggered through an alarm
+      const { wasReload } = action.payload
+      if (wasReload) {
+        playAlarmSound()
+      }
+      return state.merge({
+        video: {
+          reload: false,
+        },
+      }, { deep: true })
     }
     default:
       return state

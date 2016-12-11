@@ -30,8 +30,8 @@ export default class VideoPlayer extends Component {
   shouldComponentUpdate(nextProps) {
     // a re-render makes the webview load the whole video again, making it start all over.
     const { autoplay, reload, customVideoId, onLoadEnd } = this.props
+    if (nextProps.reload) return true // reload is cleared immediately, don't re-render when it's set to false
     if (nextProps.autoplay === autoplay
-        && nextProps.reload === reload
         && nextProps.customVideoId === customVideoId
         && nextProps.onLoadEnd === onLoadEnd) {
       return false
@@ -53,6 +53,7 @@ export default class VideoPlayer extends Component {
 
   render() {
     const { autoplay, customVideoId } = this.props
+    const renderReload = this.props.reload  // only gets updated when render is updated
     const source = {
     // may not be called index.html, bug?
       uri: `${apiSource}?nocache=${Date.now()}&volume=100`
@@ -70,7 +71,7 @@ export default class VideoPlayer extends Component {
         allowUniversalAccessFromFileURLs
         source={source}
         onLoadEnd={this.props.onLoadEnd}
-        onError={event => this.props.onError(event.nativeEvent)}
+        onError={event => this.props.onError(event.nativeEvent, renderReload)}
         renderError={this.renderError}
       />
     )

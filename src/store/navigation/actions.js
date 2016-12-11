@@ -15,11 +15,12 @@ export function createVideoPlayerLoadEnd() {
   }
 }
 
-export function createVideoPlayerError(error) {
+export function createVideoPlayerError(error, wasReload) {
   return {
     type: 'VIDEO_PLAYER_ERROR',
     payload: {
       error,
+      wasReload,
     },
   }
 }
