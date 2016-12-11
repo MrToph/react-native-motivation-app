@@ -89,7 +89,7 @@ export default class About extends Component {
           Videos
         </Text>
         <Text style={[typography.paperFontSubhead, styles.text]}>
-            The videos are taken from the following YouTube channels:
+            The videos are from the following YouTube channels:
           </Text>
         <Text style={[styles.text]} multiline>
           {
