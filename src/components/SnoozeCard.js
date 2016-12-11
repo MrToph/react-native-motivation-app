@@ -51,7 +51,7 @@ class SnoozeCard extends Component {
             <Text style={typography.paperFontCaption}>
               {
                   this.props.nextAlarmText
-                }
+              }
             </Text>
             <TouchableOpacity style={{ alignSelf: 'flex-end' }} onPress={this.onDeletePress}>
               <Icon name="delete" color={textColor} size={26} />
