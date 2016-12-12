@@ -12,6 +12,9 @@ const defaultState = Immutable({
     reload: false,  // when rendering Video component, should it reload or keep its old state
     autoplay: false,  // when rendering Video component, should it auto play?
   },
+  ringtoneModal: {
+    visible: false,
+  },
   orientation: 'PORTRAIT',  // or LANDSCAPE
 })
 
@@ -36,18 +39,21 @@ const lockOrientationForScene = (newScene) => {
   }
 }
 
-const playAlarmSound = () => {
+const playAlarmSound = (state) => {
   NativeModules.SoundManager.playAlarmSound()
-  setTimeout(() => NativeModules.SoundManager.stopAlarmSound(), 5000)
+  return state.merge({
+    ringtoneModal: {
+      visible: true,
+    },
+  }, { deep: true })
+}
+
+const stopAlarmSound = () => {
+  NativeModules.SoundManager.stopAlarmSound()
 }
 
 const reducer = (state = defaultState, action) => {
   switch (action.type) {
-    case 'ORIENTATION_CHANGED': {
-      return state.merge({
-        orientation: action.payload.orientation,
-      }, { deep: true })
-    }
     case 'APP_LAUNCHED': {
       NativeModules.SoundManager.setControlStreamMusic()
       // if app was launched with an alarmId => show the video screen and autoplay video
@@ -66,10 +72,15 @@ const reducer = (state = defaultState, action) => {
             },
           }, { deep: true })
         }
-        // otherwise play Sound
+        // otherwise (no WiFi and settings say only when WiFi) play Sound
         playAlarmSound()
       }
       return state
+    }
+    case 'ORIENTATION_CHANGED': {
+      return state.merge({
+        orientation: action.payload.orientation,
+      }, { deep: true })
     }
     case 'TAB_PRESSED': {
       lockOrientationForScene(action.payload)
@@ -80,11 +91,24 @@ const reducer = (state = defaultState, action) => {
         },
       }, { deep: true })
     }
+    case 'RINGTONE_MODAL_DISMISSED': {
+      stopAlarmSound()
+      return state.merge({
+        activeScene: 'alarm',
+        ringtoneModal: {
+          visible: false,
+        },
+      }, { deep: true })
+    }
     case 'SNOOZE_PRESSED': {
+      stopAlarmSound()
       lockOrientationForScene('alarm')
       requestInterstitial()
       return state.merge({
         activeScene: 'alarm',
+        ringtoneModal: {
+          visible: false,
+        },
       }, { deep: true })
     }
     case 'VIDEO_PLAYER_LOAD_END': {
@@ -97,10 +121,11 @@ const reducer = (state = defaultState, action) => {
     case 'VIDEO_PLAYER_ERROR': {
       // if reload is true, it means video playing was triggered through an alarm
       const { wasReload } = action.payload
+      let mergedState = state
       if (wasReload) {
-        playAlarmSound()
+        mergedState = playAlarmSound(mergedState)
       }
-      return state.merge({
+      return mergedState.merge({
         video: {
           reload: false,
         },

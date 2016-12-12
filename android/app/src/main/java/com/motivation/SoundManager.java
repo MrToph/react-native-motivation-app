@@ -5,8 +5,9 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
+import android.util.Log;
 
-import android.media.Ringtone;
+import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 
@@ -14,18 +15,21 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class SoundManager extends ReactContextBaseJavaModule {
-  static private Ringtone ringtone;
+  private MediaPlayer mediaPlayer;
+  private Uri uri;
   public SoundManager(ReactApplicationContext reactContext) {
     super(reactContext);
-    ringtone = initRingtone();
+    uri = initRingtone();
   }
 
-  private Ringtone initRingtone() {
-    int[] trySounds = new int[] { RingtoneManager.TYPE_ALARM,
+  private Uri initRingtone() {
+    int[] trySounds = new int[] {
+      RingtoneManager.TYPE_ALARM,
       RingtoneManager.TYPE_RINGTONE,
       RingtoneManager.TYPE_NOTIFICATION
     };
@@ -33,10 +37,7 @@ public class SoundManager extends ReactContextBaseJavaModule {
     while(i < trySounds.length) {
         Uri uri = RingtoneManager.getDefaultUri(trySounds[i]);
         i++;
-        if(uri == null) continue;
-        Ringtone r = RingtoneManager.getRingtone(getReactApplicationContext(), uri);
-        if(r == null) continue;
-        return r;
+        if(uri != null) return uri;
     }
     return null;
   }
@@ -66,13 +67,23 @@ public class SoundManager extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public final void playAlarmSound() {
-    if(ringtone == null) return;
-    ringtone.play();
+    // init here, because it doesn't work when done in constructor when app restarts
+    mediaPlayer = new MediaPlayer();
+    try{
+      mediaPlayer.setLooping(true);
+      mediaPlayer.setDataSource(getReactApplicationContext(), uri);
+      mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+      mediaPlayer.prepare();
+      mediaPlayer.start();
+    } catch(Exception ex){
+      Log.i("MOTIVATION_TAG", (ex == null ? "Error Message was null." : ex.getMessage()));
+      ex.printStackTrace();
+    }
   }
 
   @ReactMethod
   public final void stopAlarmSound() {
-    if(ringtone == null) return;
-    ringtone.stop();
+    if(mediaPlayer == null) return;
+    mediaPlayer.stop();
   }
 }

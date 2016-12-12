@@ -39,8 +39,7 @@ export default class VideoPlayer extends Component {
     return true
   }
 
-  renderError(error) {
-    console.log(error)
+  renderError() {
     return (
       <View style={styles.errorView}>
         <Text style={[{ textAlign: 'center' }, typography.paperFontDisplay1]}>

@@ -59,6 +59,13 @@ const reducer = (state = defaultState, action) => {
       NativeModules.SoundManager.setMusicVolume(state.volume)
       return state
     }
+    case 'RINGTONE_MODAL_DISMISSED': {
+      return state.merge({
+        ringtoneModal: {
+          visible: false,
+        },
+      }, { deep: true })
+    }
     default:
       return state
   }

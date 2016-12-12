@@ -44,6 +44,12 @@ export function createOrientationChanged(orientation) {
   }
 }
 
+export function createRingtoneModalDismissPressed() {
+  return {
+    type: 'RINGTONE_MODAL_DISMISSED',
+  }
+}
+
 // not used right now
 export function createStateLoadError(error) {
   return {

@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import Orientation from 'react-native-orientation'
 import { createOrientationChanged } from '../store/navigation/actions'
 import { getActiveScene, isOrientationLandscape } from '../store/selectors'
-import { TabBar, Banner } from '../components'
+import { TabBar, Banner, RingtoneModal } from '../components'
 import { adBannerHeight } from '../styling'
 
 const styles = {
@@ -70,6 +70,7 @@ class App extends Component {
           !isLandscape &&
           <Banner style={styles.banner} />
         }
+        <RingtoneModal />
       </View>
     )
   }
