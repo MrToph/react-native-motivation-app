@@ -16,3 +16,7 @@ export function getSnoozeMinutes(state) {
 export function getWifiOnly(state) {
   return state.wifiOnly
 }
+
+export function getVolume(state) {
+  return state.volume
+}

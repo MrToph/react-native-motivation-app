@@ -57,7 +57,7 @@ const reducer = (state = defaultState, action) => {
     case 'APP_LAUNCHED': {
       NativeModules.SoundManager.setControlStreamMusic()
       // if app was launched with an alarmId => show the video screen and autoplay video
-      const { alarmId, connectionInfo } = action.payload
+      const { alarmId, connectionInfo, volume } = action.payload
       if (typeof alarmId !== 'undefined') {
         const wifiOnly = getWifiOnly(action.getState())
         // if settings say play even if not on wifi
@@ -73,7 +73,9 @@ const reducer = (state = defaultState, action) => {
           }, { deep: true })
         }
         // otherwise (no WiFi and settings say only when WiFi) play Sound
-        playAlarmSound()
+        console.log(volume)
+        NativeModules.SoundManager.setMusicVolume(volume)
+        return playAlarmSound(state)
       }
       return state
     }

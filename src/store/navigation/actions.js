@@ -1,6 +1,7 @@
 import { AsyncStorage, NetInfo } from 'react-native'
 import { createAlarmStateLoad } from '../alarm/actions'
 import { createSettingsStateLoad } from '../settings/actions'
+import { getVolume } from '../selectors'
 
 export function createTabPress(tabName) {
   return {
@@ -25,12 +26,13 @@ export function createVideoPlayerError(error, wasReload) {
   }
 }
 
-export function createLaunchAction(alarmId, connectionInfo) {
+export function createLaunchAction(alarmId, connectionInfo, volume) {
   return {
     type: 'APP_LAUNCHED',
     payload: {
       alarmId,
       connectionInfo,
+      volume,
     },
   }
 }
@@ -68,7 +70,7 @@ function loadState(type) {
 }
 
 export function loadStateAndSetAlarms(alarmId) {
-  return function (dispatch) {
+  return function (dispatch, getState) {
     return loadState('alarm')
     .then(
       stateString => dispatch(createAlarmStateLoad(stateString)),
@@ -82,7 +84,7 @@ export function loadStateAndSetAlarms(alarmId) {
         NetInfo.fetch,
     )
     .then(
-      connectionInfo => dispatch(createLaunchAction(alarmId, connectionInfo)),
+      connectionInfo => dispatch(createLaunchAction(alarmId, connectionInfo, getVolume(getState()))),
     )
     .done()
   }
