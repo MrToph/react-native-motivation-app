@@ -128,6 +128,17 @@
 	}
 
 
+
+
+	var errorTypeToTimeoutId={};
+	function onPlayerError(event){
+	var errorType=event.data;
+	console.error('YouTube-Iframe-Api Error-Code:',errorType);
+
+	if(typeof errorTypeToTimeoutId[errorType]==='number')return;
+	errorTypeToTimeoutId[errorType]=setTimeout(function(){return window.postMessage(errorType,'*');},3000);
+	}
+
 	var player=void 0;
 	window.onYouTubeIframeAPIReady=function onYouTubeIframeAPIReady(){
 	player=new YT.Player('player',{
@@ -135,7 +146,8 @@
 	height:'100%',
 	videoId:videoId,
 	events:{
-	onReady:onPlayerReady},
+	onReady:onPlayerReady,
+	onError:onPlayerError},
 
 	playerVars:{
 	rel:0,
