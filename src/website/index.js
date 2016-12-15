@@ -81,7 +81,18 @@ function onPlayerReady(event) {
   if (params.autoplay) event.target.playVideo()
 }
 
-// player and onYouTubeIframeAPIReady used by YT-iframe-API
+// There are several issues with communication with react-native's webview and the YouTube-Iframe Api:
+// The iFrame Api fires the error for a wrong video-id (number 2) twice.
+// PostMessages do not arrive at react-native if sent immediately. Bad solution is to wait for some seconds
+const errorTypeToTimeoutId = {}
+function onPlayerError(event) {
+  const errorType = event.data
+  console.error('YouTube-Iframe-Api Error-Code:', errorType)
+  // if current error was already queued, don't queue it again
+  if (typeof errorTypeToTimeoutId[errorType] === 'number') return
+  errorTypeToTimeoutId[errorType] = setTimeout(() => window.postMessage(errorType, '*'), 3000)
+}
+
 let player  // eslint-disable-line
 window.onYouTubeIframeAPIReady = function onYouTubeIframeAPIReady() {
   player = new YT.Player('player', {
@@ -90,6 +101,7 @@ window.onYouTubeIframeAPIReady = function onYouTubeIframeAPIReady() {
     videoId,
     events: {
       onReady: onPlayerReady,
+      onError: onPlayerError,
     },
     playerVars: { // https://developers.google.com/youtube/player_parameters?playerVersion=HTML5
       rel: 0, // no related videos

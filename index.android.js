@@ -16,7 +16,7 @@ export default class Motivation extends Component {
   }
   constructor(props) {
     super(props)
-    console.log('index.android.js', props)
+    // console.log('index.android.js', props)
   }
 
   componentWillMount() {

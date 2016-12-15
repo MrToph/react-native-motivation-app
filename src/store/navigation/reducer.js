@@ -4,7 +4,7 @@ import Orientation from 'react-native-orientation'
 import { AdMobInterstitial } from 'react-native-admob'
 import Immutable from 'seamless-immutable'
 import { getWifiOnly } from '../selectors'
-import { testDeviceId } from '../../constants'
+// import { testDeviceId } from '../../constants'
 
 const defaultState = Immutable({
   activeScene: 'alarm',
@@ -19,7 +19,7 @@ const defaultState = Immutable({
 })
 
 // AdMobInterstitial.setTestDeviceID('EMULATOR')
-AdMobInterstitial.setTestDeviceID(testDeviceId)
+// AdMobInterstitial.setTestDeviceID(testDeviceId)
 const requestInterstitial = () => {
   AdMobInterstitial.requestAd((error) => {
     if (error) {
@@ -121,10 +121,10 @@ const reducer = (state = defaultState, action) => {
       }, { deep: true })
     }
     case 'VIDEO_PLAYER_ERROR': {
-      // if reload is true, it means video playing was triggered through an alarm
-      const { wasReload } = action.payload
+      // if autoplay is true, it means video playing was triggered through an alarm
+      const { wasAutoplay } = action.payload
       let mergedState = state
-      if (wasReload) {
+      if (wasAutoplay) {
         mergedState = playAlarmSound(mergedState)
       }
       return mergedState.merge({

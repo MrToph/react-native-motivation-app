@@ -33,9 +33,9 @@ class Video extends Component {
     this.props.dispatchSnoozePressed()
   }
 
-  onError = (error, wasReload) => {
+  onError = (error, wasAutoplay) => {
     // eslint-disable-next-line
-    this.props.dispatchVideoPlayerError(error, wasReload)
+    this.props.dispatchVideoPlayerError(error, wasAutoplay)
   }
 
   onLoadEnd = () => {
@@ -75,7 +75,7 @@ const mapStateToProps = state => getVideoState(state)
 const mapDispatchToProps = dispatch => ({
   dispatchVideoPlayerLoadEnd: () => dispatch(createVideoPlayerLoadEnd()),
   dispatchSnoozePressed: () => dispatch(createSnoozePressed()),
-  dispatchVideoPlayerError: (error, wasReload) => dispatch(createVideoPlayerError(error, wasReload)),
+  dispatchVideoPlayerError: (error, wasAutoplay) => dispatch(createVideoPlayerError(error, wasAutoplay)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Video)

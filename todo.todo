@@ -3,6 +3,7 @@ Bugs:
 	https://developer.android.com/reference/android/app/AlarmManager.html#setAlarmClock(android.app.AlarmManager.AlarmClockInfo, android.app.PendingIntent)
 	https://plus.google.com/+AndroidDevelopers/posts/GdNrQciPwqo
 	✔ App crashes in production when re-launched with snooze (and Wi-Fi off). com.facebook.react.common.JavascriptException: undefined is not an object (evaluating 'e.merge'), stack: @done (December 13th 2016, 12:14)
+	✔ Treat YouTube play-back error like Webview-loadError with playing ringtone instead. @done (December 15th 2016, 16:27)
 	☐ "Application attempted to call on a destroyed WebView"
 
 Features:

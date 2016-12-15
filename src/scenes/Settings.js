@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { View, Slider } from 'react-native'
+import { ScrollView, View, Slider } from 'react-native'
 import { CheckBox } from 'react-native-elements'
 import { typography } from 'react-native-material-design-styles'
 import { connect } from 'react-redux'
@@ -94,10 +94,9 @@ class Settings extends Component {
 
 
   render() {
-    const { playCustomVideoId, snoozeMinutes, volume } = this.props
-    console.log(this.props)
+    const { playCustomVideoId, snoozeMinutes } = this.props
     return (
-      <View>
+      <ScrollView showVerticalScrollbar>
         <Text style={[{ color: primaryColor, alignSelf: 'center' }, typography.paperFontTitle]}>Settings</Text>
         <CheckBox
           title="Only stream when connected to Wi-Fi"
@@ -123,7 +122,7 @@ class Settings extends Component {
           />
         </View>
         <TextInputRow
-          textBefore="Snooze Time:"
+          textBefore="Snooze Length:"
           textAfter="minutes"
           onSubmit={this.onSnoozeSubmit}
           inputStyle={[styles.textInput, styles.snoozeMinutesInput]}
@@ -135,7 +134,7 @@ class Settings extends Component {
           }}
         />
         <CheckBox
-          title="Play Custom YouTube Video"
+          title="Play custom YouTube video"
           containerStyle={{ borderWidth: 0, backgroundColor: 'transparent', marginHorizontal: 0 }}
           textStyle={textStyle}
           checked={this.props.playCustom}
@@ -155,7 +154,7 @@ class Settings extends Component {
           }}
         />
         }
-      </View>
+      </ScrollView>
     )
   }
 }

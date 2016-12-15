@@ -29,20 +29,28 @@ export default class VideoPlayer extends Component {
 
   shouldComponentUpdate(nextProps) {
     // a re-render makes the webview load the whole video again, making it start all over.
-    const { autoplay, reload, customVideoId, onLoadEnd } = this.props
+    const { autoplay, customVideoId, onLoadEnd, onError } = this.props
     if (nextProps.reload) return true // reload is cleared immediately, don't re-render when it's set to false
     if (nextProps.autoplay === autoplay
         && nextProps.customVideoId === customVideoId
-        && nextProps.onLoadEnd === onLoadEnd) {
+        && nextProps.onLoadEnd === onLoadEnd
+        && nextProps.onError === onError) {
       return false
     }
     return true
   }
 
+  // bridge between webView and react-native that listens to the YouTube-API Player errors and forwards them
+  onPostMessage = (event) => {
+    const { data } = event.nativeEvent
+    this.props.onError(event.nativeEvent, this.props.autoplay)
+    console.log('Receieved a postmessage', data, data.type)
+  }
+
   renderError() {
     return (
       <View style={styles.errorView}>
-        <Text style={[{ textAlign: 'center' }, typography.paperFontDisplay1]}>
+        <Text style={[{ textAlign: 'center' }, typography.paperFontHeadline]}>
           {`There was an error playing the video.
           \nMake sure you have a working internet connection.`}
         </Text>
@@ -52,9 +60,7 @@ export default class VideoPlayer extends Component {
 
   render() {
     const { autoplay, customVideoId } = this.props
-    const renderReload = this.props.reload  // only gets updated when render is updated
     const source = {
-    // may not be called index.html, bug?
       uri: `${apiSource}?nocache=${Date.now()}&volume=100`
             + `${autoplay ? `&autoplay=${autoplay}` : ''}`
             + `${customVideoId ? `&videoid=${customVideoId}` : ''}`,
@@ -65,12 +71,11 @@ export default class VideoPlayer extends Component {
         style={styles.webView}
         ref={(webView) => { this.webView = webView }}
         javaScriptEnabled
-        injectedJavaScript={''}
         mediaPlaybackRequiresUserAction={false}
-        allowUniversalAccessFromFileURLs
         source={source}
+        onMessage={this.onPostMessage}
         onLoadEnd={this.props.onLoadEnd}
-        onError={event => this.props.onError(event.nativeEvent, renderReload)}
+        onError={event => this.props.onError(event.nativeEvent, autoplay)}
         renderError={this.renderError}
       />
     )
