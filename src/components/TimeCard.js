@@ -14,6 +14,11 @@ const styles = {
     alignItems: 'center',
     alignSelf: 'stretch', // horizontally stretch this container to take the full row even if items are smaller
   },
+  // When displaying the time we could encounter that the first row is bigger than the device width onPress
+  // small devices. Make the calendarText shrink then.
+  textShrink: {
+    flexShrink: 1,
+  },
   card: {
     alignSelf: 'stretch',
     backgroundColor: dark4,
@@ -82,9 +87,9 @@ class TimeCard extends Component {
       <Card containerStyle={styles.card}>
         <TouchableNativeFeedback onPress={this.onBackgroundPress}>
           <View style={styles.container}>
-            <View style={styles.horizontalContainer}>
+            <View style={styles.horizontalContainer} >
               <TimeDisplay time={time} onPress={this.showTimePicker} />
-              <Text style={typography.paperFontCaption}>
+              <Text style={[typography.paperFontCaption, styles.textShrink]}>
                 {
                   this.props.nextAlarmText
                 }

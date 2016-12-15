@@ -1,8 +1,9 @@
+import moment from 'moment'
+
 export function formatTime(timeObj) {
   const hour = timeObj.hour
-  let minute = timeObj.minute
-  minute = (`0${minute}`).slice(-2)
-  return `${hour}:${minute}`
+  const minute = timeObj.minute
+  return moment(`${hour}:${minute}`, 'HH:m').format('LT')  // local time format
 }
 
 export function padLeft(char, totalLength, valueToPad) {

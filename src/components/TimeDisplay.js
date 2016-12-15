@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react'
 import { TouchableOpacity } from 'react-native'
 import { typography } from 'react-native-material-design-styles'
 import { Text } from '../components'
-import { primaryColor } from '../styling'
 
 export default class TimeDisplay extends Component {
   static propTypes = {
@@ -11,9 +10,13 @@ export default class TimeDisplay extends Component {
   }
 
   render() {
+    // React-Native doesn't have `adjustsFontSizeToFit` for Android yet
+    const timeLength = this.props.time.length
+    // AM / PM really stretches it
+    const fontSize = timeLength > 5 ? typography.paperFontHeadline : typography.paperFontDisplay1
     return (
       <TouchableOpacity onPress={this.props.onPress}>
-        <Text style={typography.paperFontDisplay2}>{this.props.time}</Text>
+        <Text style={fontSize}>{this.props.time}</Text>
       </TouchableOpacity>
     )
   }
