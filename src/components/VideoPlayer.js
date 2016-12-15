@@ -42,9 +42,8 @@ export default class VideoPlayer extends Component {
 
   // bridge between webView and react-native that listens to the YouTube-API Player errors and forwards them
   onPostMessage = (event) => {
-    const { data } = event.nativeEvent
+    // const { data } = event.nativeEvent
     this.props.onError(event.nativeEvent, this.props.autoplay)
-    console.log('Receieved a postmessage', data, data.type)
   }
 
   renderError() {

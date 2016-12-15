@@ -22,11 +22,9 @@ export default class About extends Component {
   }
 
   onRate = () => {
-    Linking.openURL(`market://details?id=${packageName}`).catch((err) => {
-      console.log('About:onRate1', err)
+    Linking.openURL(`market://details?id=${packageName}`).catch(() => {
       // try to open it in browser
-      Linking.openURL(`http://play.google.com/store/apps/details?id=${packageName}`).catch((err) => {
-        console.log('About:onRate2', err)
+      Linking.openURL(`http://play.google.com/store/apps/details?id=${packageName}`).catch(() => {
       })
     })
   }

@@ -53,14 +53,12 @@ class Settings extends Component {
   }
 
   onVolumeChange = (volume) => {
-    console.log(volume)
     this.setState({
       volume,
     })
   }
 
   onVolumeSubmit = () => {
-    console.log('SUBMIT', this.state.volume)
     const { volume } = this.state
     if (isInt(volume)) {
       // eslint-disable-next-line

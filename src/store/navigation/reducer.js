@@ -4,7 +4,7 @@ import Orientation from 'react-native-orientation'
 import { AdMobInterstitial } from 'react-native-admob'
 import Immutable from 'seamless-immutable'
 import { getWifiOnly } from '../selectors'
-// import { testDeviceId } from '../../constants'
+import { /* testDeviceId, */ devSettings } from '../../constants'
 
 const defaultState = Immutable({
   activeScene: 'alarm',
@@ -21,6 +21,9 @@ const defaultState = Immutable({
 // AdMobInterstitial.setTestDeviceID('EMULATOR')
 // AdMobInterstitial.setTestDeviceID(testDeviceId)
 const requestInterstitial = () => {
+  if (!devSettings.freeVersion) {
+    return
+  }
   AdMobInterstitial.requestAd((error) => {
     if (error) {
       console.log('AdMobInterstitial.requestAd: ', error)
@@ -73,7 +76,6 @@ const reducer = (state = defaultState, action) => {
           }, { deep: true })
         }
         // otherwise (no WiFi and settings say only when WiFi) play Sound
-        console.log(volume)
         NativeModules.SoundManager.setMusicVolume(volume)
         return playAlarmSound(state)
       }

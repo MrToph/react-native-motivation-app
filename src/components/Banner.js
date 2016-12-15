@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import { View } from 'react-native'
 import { AdMobBanner, AdMobInterstitial } from 'react-native-admob'
-import { adUnitID, adSnoozeInterstitial } from '../constants'
+import { adUnitID, adSnoozeInterstitial, devSettings } from '../constants'
 import { adBannerHeight } from '../styling'
 
-// may only be set once, otherwise error
-AdMobInterstitial.setAdUnitID(adSnoozeInterstitial)
+if (devSettings.freeVersion) {
+  // may only be set once, otherwise error
+  AdMobInterstitial.setAdUnitID(adSnoozeInterstitial)
+}
 
 const styles = {
   banner: {
@@ -25,6 +27,11 @@ export default class Banner extends Component {
 
   render() {
     const style = this.props.style
+    if (!devSettings.freeVersion) {
+      return (
+        null
+      )
+    }
     return (
       <View style={[styles.banner, style]}>
         <AdMobBanner
