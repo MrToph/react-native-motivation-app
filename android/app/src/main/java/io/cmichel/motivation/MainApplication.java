@@ -1,4 +1,4 @@
-package com.motivation;
+package io.cmichel.motivation;
 
 import android.app.Application;
 import android.util.Log;

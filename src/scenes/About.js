@@ -3,12 +3,13 @@ import { ScrollView, View, TouchableOpacity, Linking } from 'react-native'
 import { typography } from 'react-native-material-design-styles'
 import Device from 'react-native-device-info'
 import { Text } from '../components'
-import { packageName, appName, mail } from '../constants'
+import { packageName, appName, mail, devSettings } from '../constants'
 import { primaryColor } from '../styling'
 
 const styles = {
   horizontalContainer: { flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' },
-  text: { marginLeft: 16 }, // as in Checkbox from material-design
+  text: { marginHorizontal: 16 }, // as in Checkbox from material-design
+  highlight: { color: primaryColor },
   textInput: { flex: 0, width: 60, textAlign: 'center' }, // overwrite standard flex: 1 in TextInputRow
   subheading: { marginTop: 25, color: primaryColor, textAlign: 'center' },
 }
@@ -25,6 +26,14 @@ export default class About extends Component {
     Linking.openURL(`market://details?id=${packageName}`).catch(() => {
       // try to open it in browser
       Linking.openURL(`http://play.google.com/store/apps/details?id=${packageName}`).catch(() => {
+      })
+    })
+  }
+
+  onBuy = () => {
+    Linking.openURL(`market://details?id=${packageName}pro`).catch(() => {
+      // try to open it in browser
+      Linking.openURL(`http://play.google.com/store/apps/details?id=${packageName}pro`).catch(() => {
       })
     })
   }
@@ -64,6 +73,16 @@ export default class About extends Component {
             {'If you like this app, please rate it.\nIt helps more people discover it and motivates me to work on new features.'}
           </Text>
         </TouchableOpacity>
+        { false && devSettings.freeVersion &&
+        <TouchableOpacity onPress={this.onBuy}>
+          <Text style={[typography.paperFontSubhead, styles.text, styles.highlight]}>
+            Remove Ads
+          </Text>
+          <Text style={[styles.text, styles.highlight]}>
+            {`If you don't like the ads and want to support me, you can purchase an ad-free version by clicking here.`}
+          </Text>
+        </TouchableOpacity>
+        }
         <Text style={[typography.paperFontTitle, styles.text, styles.subheading]}>
           Social Media
         </Text>
@@ -87,7 +106,7 @@ export default class About extends Component {
           Videos
         </Text>
         <Text style={[typography.paperFontSubhead, styles.text]}>
-            The videos are from the following YouTube channels:
+            Most videos are from the following YouTube channels:
           </Text>
         <Text style={[styles.text]} multiline>
           {

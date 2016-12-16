@@ -1,4 +1,4 @@
-package com.motivation;
+package io.cmichel.motivation;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
