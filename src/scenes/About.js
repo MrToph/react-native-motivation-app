@@ -106,7 +106,7 @@ export default class About extends Component {
           Videos
         </Text>
         <Text style={[typography.paperFontSubhead, styles.text]}>
-            Most videos are from the following YouTube channels:
+            Most videos are created by the following YouTube channels:
           </Text>
         <Text style={[styles.text]} multiline>
           {
