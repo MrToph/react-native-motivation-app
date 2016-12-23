@@ -1,3 +1,5 @@
+import { getSnoozeMinutes } from '../selectors'
+
 export function createTimeChanged(id, hour, minute) {
   return {
     type: 'TIME_CHANGED',
@@ -23,8 +25,13 @@ export function createTimeDelete(id) {
 }
 
 export function createSnoozePressed() {
-  return {
-    type: 'SNOOZE_PRESSED',
+  return function (dispatch, getState) {
+    return dispatch({
+      type: 'SNOOZE_PRESSED',
+      payload: {
+        snoozeMinutes: getSnoozeMinutes(getState()),
+      },
+    })
   }
 }
 

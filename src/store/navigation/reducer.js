@@ -3,7 +3,6 @@ import AppLauncher from 'react-native-app-launcher'
 import Orientation from 'react-native-orientation'
 import { AdMobInterstitial } from 'react-native-admob'
 import Immutable from 'seamless-immutable'
-import { getWifiOnly } from '../selectors'
 import { /* testDeviceId, */ devSettings } from '../../constants'
 
 const defaultState = Immutable({
@@ -60,9 +59,8 @@ const reducer = (state = defaultState, action) => {
     case 'APP_LAUNCHED': {
       NativeModules.SoundManager.setControlStreamMusic()
       // if app was launched with an alarmId => show the video screen and autoplay video
-      const { alarmId, connectionInfo, volume } = action.payload
+      const { alarmId, connectionInfo, wifiOnly, volume } = action.payload
       if (typeof alarmId !== 'undefined') {
-        const wifiOnly = getWifiOnly(action.getState())
         // if settings say play even if not on wifi
         // or we are connected to Wifi => play video
         if (!wifiOnly || connectionInfo === 'WIFI') {

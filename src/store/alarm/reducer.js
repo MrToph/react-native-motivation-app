@@ -2,7 +2,6 @@ import Immutable from 'seamless-immutable'
 import AppLauncher from 'react-native-app-launcher'
 import moment from 'moment'
 import { AsyncStorage } from 'react-native'
-import { getSnoozeMinutes } from '../selectors'
 import { dayKeys } from '../../constants'
 
 /**
@@ -175,7 +174,7 @@ const reducer = (state = defaultState, action) => {
       return saveAndReturnState(newState.set('alarmsById', alarmsById))
     }
     case 'SNOOZE_PRESSED': {
-      const snoozeMinutes = getSnoozeMinutes(action.getState())
+      const { snoozeMinutes } = action.payload
       const timestamp = moment()
       timestamp.add(snoozeMinutes, 'minutes')
       // create new _enabled_ snooze Object

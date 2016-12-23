@@ -1,7 +1,7 @@
 import { AsyncStorage, NetInfo } from 'react-native'
 import { createAlarmStateLoad } from '../alarm/actions'
 import { createSettingsStateLoad } from '../settings/actions'
-import { getVolume } from '../selectors'
+import { getVolume, getWifiOnly } from '../selectors'
 
 export function createTabPress(tabName) {
   return {
@@ -26,12 +26,13 @@ export function createVideoPlayerError(error, wasAutoplay) {
   }
 }
 
-export function createLaunchAction(alarmId, connectionInfo, volume) {
+export function createLaunchAction(alarmId, connectionInfo, settingsWifiOnly, volume) {
   return {
     type: 'APP_LAUNCHED',
     payload: {
       alarmId,
       connectionInfo,
+      wifiOnly: settingsWifiOnly,
       volume,
     },
   }
@@ -84,7 +85,12 @@ export function loadStateAndSetAlarms(alarmId) {
         NetInfo.fetch,
     )
     .then(
-      connectionInfo => dispatch(createLaunchAction(alarmId, connectionInfo, getVolume(getState()))),
+      connectionInfo => dispatch(createLaunchAction(
+        alarmId,
+        connectionInfo,
+        getWifiOnly(getState()),
+        getVolume(getState()),
+      )),
     )
     .done()
   }

@@ -6,13 +6,8 @@ import navigationReducer from './navigation/reducer'
 import settingsReducer from './settings/reducer'
 import { devSettings } from '../constants'
 
-function getStateMiddleWare({ getState }) {
-  return next => action => next({ ...action, getState })
-}
-
 const middleWares = []
 middleWares.push(thunk)
-middleWares.push(getStateMiddleWare)
 if (devSettings.logRedux) {
   middleWares.push(logger())
 }
