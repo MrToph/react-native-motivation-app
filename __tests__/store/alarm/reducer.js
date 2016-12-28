@@ -23,71 +23,71 @@ describe('moment.js', () => {
 
 describe('computeNextAlarmTimestamp', () => {
   it('no repeat same day later', () => {
-  const schedule = moment()
-  schedule.add(1, 'minute')
-  const answer = computeNextAlarmTimestamp(schedule.hour(), schedule.minute(), false)
-  expect(answer.format('YYYY-MM-DD HH:mm')).toBe(schedule.format('YYYY-MM-DD HH:mm'))
-})
+    const schedule = moment()
+    schedule.add(1, 'minute')
+    const answer = computeNextAlarmTimestamp(schedule.hour(), schedule.minute(), false)
+    expect(answer.format('YYYY-MM-DD HH:mm')).toBe(schedule.format('YYYY-MM-DD HH:mm'))
+  })
 
-it('no repeat same day earlier', () => {
-  const schedule = moment()
-  schedule.add(-1, 'minute')
-  const answer = computeNextAlarmTimestamp(schedule.hour(), schedule.minute(), false)
-  expect(answer.format('YYYY-MM-DD HH:mm')).toBe('2016-11-16 11:59')    // the next day
-})
+  it('no repeat same day earlier', () => {
+    const schedule = moment()
+    schedule.add(-1, 'minute')
+    const answer = computeNextAlarmTimestamp(schedule.hour(), schedule.minute(), false)
+    expect(answer.format('YYYY-MM-DD HH:mm')).toBe('2016-11-16 11:59')    // the next day
+  })
 
-it('repeat empty repeatMap', () => {
-  const schedule = moment()
-  schedule.add(-1, 'minute')
-  const repeatMap = dayKeys.reduce(
+  it('repeat empty repeatMap', () => {
+    const schedule = moment()
+    schedule.add(-1, 'minute')
+    const repeatMap = dayKeys.reduce(
                         (obj, dayKey) => Object.assign(obj, { [dayKey]: false }),
                         {},
                     )
-  const answer = computeNextAlarmTimestamp(schedule.hour(), schedule.minute(), true, repeatMap)
-  expect(answer).toBe(null)    // the next day
-})
+    const answer = computeNextAlarmTimestamp(schedule.hour(), schedule.minute(), true, repeatMap)
+    expect(answer).toBe(null)    // the next day
+  })
 
-it('repeat same day later', () => {
-  const schedule = moment()
-  schedule.add(1, 'minute')
-  const repeatMap = dayKeys.reduce(
+  it('repeat same day later', () => {
+    const schedule = moment()
+    schedule.add(1, 'minute')
+    const repeatMap = dayKeys.reduce(
                         (obj, dayKey, i) => Object.assign(obj, { [dayKey]: i === 2 }),
                         {},
                     )
-  const answer = computeNextAlarmTimestamp(schedule.hour(), schedule.minute(), true, repeatMap)
-  expect(answer.format('YYYY-MM-DD HH:mm')).toBe('2016-11-15 12:01')
-})
+    const answer = computeNextAlarmTimestamp(schedule.hour(), schedule.minute(), true, repeatMap)
+    expect(answer.format('YYYY-MM-DD HH:mm')).toBe('2016-11-15 12:01')
+  })
 
-it('repeat same day earlier next week', () => {
-  const schedule = moment()
-  schedule.add(-1, 'minute')
-  const repeatMap = dayKeys.reduce(
+  it('repeat same day earlier next week', () => {
+    const schedule = moment()
+    schedule.add(-1, 'minute')
+    const repeatMap = dayKeys.reduce(
                         (obj, dayKey, i) => Object.assign(obj, { [dayKey]: i === 2 }),
                         {},
                     )
-  const answer = computeNextAlarmTimestamp(schedule.hour(), schedule.minute(), true, repeatMap)
-  expect(answer.format('YYYY-MM-DD HH:mm')).toBe('2016-11-22 11:59')    // the next week
-})
+    const answer = computeNextAlarmTimestamp(schedule.hour(), schedule.minute(), true, repeatMap)
+    expect(answer.format('YYYY-MM-DD HH:mm')).toBe('2016-11-22 11:59')    // the next week
+  })
 
-it('repeat other day first', () => {
-  const schedule = moment()
-  const repeatMap = dayKeys.reduce(
+  it('repeat other day first', () => {
+    const schedule = moment()
+    const repeatMap = dayKeys.reduce(
                         (obj, dayKey, i) => Object.assign(obj, { [dayKey]: i !== 2 }),
                         {},
                     )
-  const answer = computeNextAlarmTimestamp(schedule.hour(), schedule.minute(), true, repeatMap)
-  expect(answer.format('YYYY-MM-DD HH:mm')).toBe('2016-11-16 12:00')    // Wednesday this week
-})
+    const answer = computeNextAlarmTimestamp(schedule.hour(), schedule.minute(), true, repeatMap)
+    expect(answer.format('YYYY-MM-DD HH:mm')).toBe('2016-11-16 12:00')    // Wednesday this week
+  })
 
-it('repeat Monday next week', () => {
-  const schedule = moment()
-  const repeatMap = dayKeys.reduce(
+  it('repeat Monday next week', () => {
+    const schedule = moment()
+    const repeatMap = dayKeys.reduce(
                         (obj, dayKey, i) => Object.assign(obj, { [dayKey]: i === 1 }),
                         {},
                     )
-  const answer = computeNextAlarmTimestamp(schedule.hour(), schedule.minute(), true, repeatMap)
-  expect(answer.format('YYYY-MM-DD HH:mm')).toBe('2016-11-21 12:00')    // next week Monday
-})
+    const answer = computeNextAlarmTimestamp(schedule.hour(), schedule.minute(), true, repeatMap)
+    expect(answer.format('YYYY-MM-DD HH:mm')).toBe('2016-11-21 12:00')    // next week Monday
+  })
 
 // resetting resets it too early and we use the current date in some tests instead of mock date
 // MockDate.reset()
