@@ -27,7 +27,8 @@
     "stacklogger": "^1.1.2"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "setupFiles": ["jest/setup.js"]
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",
