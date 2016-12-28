@@ -92,6 +92,5 @@ export function loadStateAndSetAlarms(alarmId) {
         getVolume(getState()),
       )),
     )
-    .done()
   }
 }
