@@ -1,6 +1,7 @@
 import Immutable from 'seamless-immutable'
 import { AsyncStorage, NativeModules } from 'react-native'
 import AppLauncher from 'react-native-app-launcher'
+import secretConstant from '../../secrets'
 import { clamp } from '../../utils'
 
 const defaultState = Immutable({
@@ -9,6 +10,7 @@ const defaultState = Immutable({
   wifiOnly: true,
   volume: 30,
   snoozeMinutes: 15,
+  freeVersion: true,
 })
 
 const saveAndReturnState = (state) => {
@@ -59,12 +61,10 @@ const reducer = (state = defaultState, action) => {
       NativeModules.SoundManager.setMusicVolume(state.volume)
       return state
     }
-    case 'RINGTONE_MODAL_DISMISSED': {
-      return state.merge({
-        ringtoneModal: {
-          visible: false,
-        },
-      }, { deep: true })
+    case 'PURCHASED_NO_ADS': {
+      return saveAndReturnState(state.merge({
+        freeVersion: secretConstant,
+      }, { deep: true }))
     }
     default:
       return state

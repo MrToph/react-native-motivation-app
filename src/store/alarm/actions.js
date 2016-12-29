@@ -1,4 +1,4 @@
-import { getSnoozeMinutes } from '../selectors'
+import { getSnoozeMinutes, getFreeVersion } from '../selectors'
 
 export function createTimeChanged(id, hour, minute) {
   return {
@@ -30,6 +30,7 @@ export function createSnoozePressed() {
       type: 'SNOOZE_PRESSED',
       payload: {
         snoozeMinutes: getSnoozeMinutes(getState()),
+        freeVersion: getFreeVersion(getState()),
       },
     })
   }

@@ -1,4 +1,4 @@
 <resources>
-
+    <string name="RNB_GOOGLE_PLAY_LICENSE_KEY">null</string>
     <string name="app_name">Motivation FREE</string>
 </resources>

@@ -3,7 +3,7 @@ import { View } from 'react-native'
 import { connect } from 'react-redux'
 import Orientation from 'react-native-orientation'
 import { createOrientationChanged } from '../store/navigation/actions'
-import { getActiveScene, isOrientationLandscape } from '../store/selectors'
+import { getActiveScene, isOrientationLandscape, getFreeVersion } from '../store/selectors'
 import { TabBar, Banner, RingtoneModal } from '../components'
 import { adBannerHeight } from '../styling'
 
@@ -25,6 +25,9 @@ const styles = {
     flex: 1,
     marginTop: adBannerHeight,
   },
+  tabBarContainerNoAds: {
+    marginTop: 0,
+  },
   tabBarContainerLandscape: {
     marginTop: 0,
   },
@@ -34,6 +37,7 @@ class App extends Component {
   static propTypes = {
     activeScene: PropTypes.string.isRequired,
     isLandscape: PropTypes.bool.isRequired,
+    freeVersion: PropTypes.bool.isRequired,
   }
 
   componentDidMount() {
@@ -55,11 +59,11 @@ class App extends Component {
   }
 
   render() {
-    const { activeScene, isLandscape } = this.props
+    const { activeScene, isLandscape, freeVersion } = this.props
     return (
       <View style={styles.container}>
         <View
-          style={[styles.tabBarContainer, isLandscape && styles.tabBarContainerLandscape]}
+          style={[styles.tabBarContainer, !freeVersion && styles.tabBarContainerNoAds, isLandscape && styles.tabBarContainerLandscape]}
         >
           <TabBar
             activeScene={activeScene}
@@ -68,7 +72,7 @@ class App extends Component {
         </View>
         {
           !isLandscape &&
-          <Banner style={styles.banner} />
+          <Banner style={styles.banner} freeVersion={freeVersion} />
         }
         <RingtoneModal />
       </View>
@@ -79,6 +83,7 @@ class App extends Component {
 const mapStateToProps = state => ({
   activeScene: getActiveScene(state),
   isLandscape: isOrientationLandscape(state),
+  freeVersion: getFreeVersion(state),
 })
 
 const mapDispatchToProps = dispatch => ({

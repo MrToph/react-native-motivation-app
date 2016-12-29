@@ -14,6 +14,7 @@
     "react-native": "0.38.0",
     "react-native-admob": "^1.1.5",
     "react-native-app-launcher": "git+https://github.com/MrToph/react-native-app-launcher.git",
+    "react-native-billing": "^2.1.2",
     "react-native-device-info": "^0.9.7",
     "react-native-elements": "^0.7.0",
     "react-native-material-design-styles": "^0.2.6",

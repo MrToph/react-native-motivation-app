@@ -39,3 +39,9 @@ export function createSettingsStateLoad(stateString) {
     },
   }
 }
+
+export function createNoAdsPurchased() {
+  return {
+    type: 'PURCHASED_NO_ADS',
+  }
+}

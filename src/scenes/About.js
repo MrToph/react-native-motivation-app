@@ -1,9 +1,13 @@
 import React, { Component, PropTypes } from 'react'
 import { ScrollView, View, TouchableOpacity, Linking } from 'react-native'
+import { connect } from 'react-redux'
 import { typography } from 'react-native-material-design-styles'
 import Device from 'react-native-device-info'
+import { getFreeVersion } from '../store/selectors'
+import { createNoAdsPurchased } from '../store/settings/actions'
+import { purchaseNoAds } from '../services/billing'
 import { Text } from '../components'
-import { packageName, appName, mail, devSettings } from '../constants'
+import { packageName, appName, mail } from '../constants'
 import { primaryColor } from '../styling'
 
 const styles = {
@@ -14,7 +18,16 @@ const styles = {
   subheading: { marginTop: 25, color: primaryColor, textAlign: 'center' },
 }
 
-export default class About extends Component {
+class About extends Component {
+  static propTypes = {
+    freeVersion: PropTypes.bool.isRequired,
+  }
+
+  constructor(props) {
+    super(props)
+    this.onBuy = this.onBuy.bind(this)
+  }
+
   onFeedback = () => {
     let body = `\n\n-------------\nWrite above this line\n${Device.getManufacturer()} | ${Device.getBrand()} | `
     body += `${Device.getModel()} | ${Device.getDeviceId()}\n`
@@ -30,12 +43,9 @@ export default class About extends Component {
     })
   }
 
-  onBuy = () => {
-    Linking.openURL(`market://details?id=${packageName}pro`).catch(() => {
-      // try to open it in browser
-      Linking.openURL(`http://play.google.com/store/apps/details?id=${packageName}pro`).catch(() => {
-      })
-    })
+  async onBuy() {
+    const purchased = await purchaseNoAds()
+    if (purchased) this.props.dispatchNoAdsPurchased()  // eslint-disable-line
   }
 
   onWebsite = () => {
@@ -73,13 +83,13 @@ export default class About extends Component {
             {'If you like this app, please rate it.\nIt helps more people discover it and motivates me to work on new features.'}
           </Text>
         </TouchableOpacity>
-        { false && devSettings.freeVersion &&
+        { this.props.freeVersion &&
         <TouchableOpacity onPress={this.onBuy}>
           <Text style={[typography.paperFontSubhead, styles.text, styles.highlight]}>
             Remove Ads
           </Text>
           <Text style={[styles.text, styles.highlight]}>
-            {`If you don't like the ads and want to support me, you can purchase an ad-free version by clicking here.`}
+            {'If you don\'t like the ads and want to support me, you can purchase an ad-free version by clicking here.'}
           </Text>
         </TouchableOpacity>
         }
@@ -117,3 +127,13 @@ export default class About extends Component {
     )
   }
 }
+
+const mapStateToProps = state => ({
+  freeVersion: getFreeVersion(state),
+})
+
+const mapDispatchToProps = dispatch => ({
+  dispatchNoAdsPurchased: () => dispatch(createNoAdsPurchased()),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(About)

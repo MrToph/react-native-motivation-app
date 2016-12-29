@@ -3,7 +3,7 @@ import AppLauncher from 'react-native-app-launcher'
 import Orientation from 'react-native-orientation'
 import { AdMobInterstitial } from 'react-native-admob'
 import Immutable from 'seamless-immutable'
-import { /* testDeviceId, */ devSettings } from '../../constants'
+// import { testDeviceId } from '../../constants'
 
 const defaultState = Immutable({
   activeScene: 'alarm',
@@ -20,9 +20,6 @@ const defaultState = Immutable({
 // AdMobInterstitial.setTestDeviceID('EMULATOR')
 // AdMobInterstitial.setTestDeviceID(testDeviceId)
 const requestInterstitial = () => {
-  if (!devSettings.freeVersion) {
-    return
-  }
   AdMobInterstitial.requestAd((error) => {
     if (error) {
       console.log('AdMobInterstitial.requestAd: ', error)
@@ -103,9 +100,10 @@ const reducer = (state = defaultState, action) => {
       }, { deep: true })
     }
     case 'SNOOZE_PRESSED': {
+      const { freeVersion } = action.payload
       stopAlarmSound()
       lockOrientationForScene('alarm')
-      requestInterstitial()
+      if (freeVersion) requestInterstitial()
       return state.merge({
         activeScene: 'alarm',
         ringtoneModal: {
