@@ -4,7 +4,7 @@ import AppLauncher from 'react-native-app-launcher'
 import secretConstant from '../../secrets'
 import { clamp } from '../../utils'
 
-const defaultState = Immutable({
+export const defaultState = Immutable({
   playRandom: true,
   playCustomVideoId: 'hbkZrOU1Zag',
   wifiOnly: true,

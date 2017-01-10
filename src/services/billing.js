@@ -1,6 +1,8 @@
 const InAppBilling = require('react-native-billing')
 
-export async function purchaseNoAds(productId = 'android.test.purchased') {
+const productId = 'io.cmichel.motivation.noads'
+
+export async function purchaseNoAds() {
   await InAppBilling.close()  // To be sure the service is close before opening it
   try {
     await InAppBilling.open()

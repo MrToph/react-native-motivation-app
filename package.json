@@ -30,7 +30,7 @@
   "jest": {
     "preset": "react-native",
     "setupFiles": [
-      "jest/setup.js"
+      "<rootDir>/jest/setup.js"
     ]
   },
   "devDependencies": {
@@ -46,7 +46,7 @@
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.7.1",
-    "jest": "17.0.3",
+    "jest": "^18.0.0",
     "json-loader": "^0.5.4",
     "mockdate": "^2.0.1",
     "react-test-renderer": "15.4.1",

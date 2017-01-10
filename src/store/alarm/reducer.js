@@ -72,7 +72,7 @@ const setAlarm = (scheduleObj) => {
  * Sets the alarm for the snooze timer provided as a parameter, with Android's AlarmManager.
  * Returns a new alarmObj.
  */
-const setSnooze = (snoozeObj, timestamp) => {
+export const setSnooze = (snoozeObj, timestamp) => {
   const { id, enabled } = snoozeObj
   if (enabled) {
     AppLauncher.setAlarm(id, timestamp)
@@ -89,7 +89,7 @@ const setSnooze = (snoozeObj, timestamp) => {
 /**
  * A schedule object is the visual representation of an alarm.
  */
-const createScheduleObj = (id, enabled, doesRepeat, hour, minute) => ({
+export const createScheduleObj = (id, enabled, doesRepeat, hour, minute) => ({
   id,
   enabled: typeof enabled === 'undefined' ? true : enabled,
   time: {
@@ -103,7 +103,7 @@ const createScheduleObj = (id, enabled, doesRepeat, hour, minute) => ({
             ),
 })
 
-const defaultState = Immutable({
+export const defaultState = Immutable({
   scheduleIds: [1, 2],
   schedulesById: {
     snooze: createScheduleObj('snooze', false, false),
@@ -145,7 +145,7 @@ const reducer = (state = defaultState, action) => {
         if (typeof parsedState !== 'object') return saveAndReturnState(state)
         return Immutable(parsedState)
       } catch (err) {
-        return saveAndReturnState(state)
+        return state
       }
     }
     case 'APP_LAUNCHED': {
@@ -179,6 +179,7 @@ const reducer = (state = defaultState, action) => {
       timestamp.add(snoozeMinutes, 'minutes')
       // create new _enabled_ snooze Object
       const snoozeObj = createScheduleObj('snooze', true, false)
+      console.log('IUAWDHjiuawhdiuawhdiuawdhaiuwdh', snoozeObj.enabled)
       let mergedState = state.merge({
         schedulesById: {
           snooze: snoozeObj,
