@@ -46,8 +46,6 @@ android/app/libs
 *.bat
 todo.todo
 google-services.json
-src/website/playlist.json
-src/website/playlist-creator.js
 src/secrets.js
 AppStore
 Images
